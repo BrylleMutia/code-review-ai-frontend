@@ -12,14 +12,13 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
-export const HomePage = () => {
-   const [auth] = useState(true);
-   const [isNavOpen, setIsNavToggle] = useState(false);
-   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+type CustomAppBarProps = {
+   handleNavToggle: () => void;
+};
 
-   const handleNavToggle = () => {
-      setIsNavToggle((prev) => !prev);
-   };
+export default function CustomAppBar({ handleNavToggle }: CustomAppBarProps) {
+   const [auth] = useState(true);
+   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
@@ -83,4 +82,4 @@ export const HomePage = () => {
          </AppBar>
       </Box>
    );
-};
+}

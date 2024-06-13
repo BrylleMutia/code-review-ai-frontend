@@ -1,10 +1,22 @@
+import React, { useState } from "react";
 import "./App.css";
-import { HomePage } from "./pages/Home";
+import CustomAppBar from "./components/CustomAppBar";
+import CustomDrawer from "./components/CustomDrawer";
 
 function App() {
+   const [isNavOpen, setIsNavToggle] = useState(false);
+
+   const handleNavToggle = () => {
+      setIsNavToggle((prev) => !prev);
+   };
+
    return (
       <>
-         <HomePage />
+         <CustomAppBar handleNavToggle={handleNavToggle} />
+         <CustomDrawer
+            handleNavToggle={handleNavToggle}
+            isNavOpen={isNavOpen}
+         />
       </>
    );
 }
