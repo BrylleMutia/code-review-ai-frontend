@@ -1,14 +1,16 @@
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+
+import ConversationsList from "./ConversationsList";
 
 type CustomDrawerProps = {
    handleNavToggle: () => void;
@@ -20,47 +22,56 @@ export default function CustomDrawer({
    isNavOpen,
 }: CustomDrawerProps) {
    const list = () => (
-      <Box role="presentation">
+      <Box
+         role="presentation"
+         sx={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+         }}
+      >
+         <div>
+            <ConversationsList />
+
+            <Divider />
+         </div>
          <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-               <ListItem key={text} disablePadding>
-                  <ListItemButton>
-                     <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                     </ListItemIcon>
-                     <ListItemText primary={text} />
-                  </ListItemButton>
-               </ListItem>
-            ))}
-         </List>
-         <Divider />
-         <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-               <ListItem key={text} disablePadding>
-                  <ListItemButton>
-                     <ListItemIcon>
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                     </ListItemIcon>
-                     <ListItemText primary={text} />
-                  </ListItemButton>
-               </ListItem>
-            ))}
+            <ListItem key="profile" disablePadding>
+               <ListItemButton>
+                  <ListItemIcon sx={{ paddingLeft: "2em" }}>
+                     <AccountCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Profile" />
+               </ListItemButton>
+            </ListItem>
+
+            <ListItem key="logout" disablePadding>
+               <ListItemButton>
+                  <ListItemIcon sx={{ paddingLeft: "2em" }}>
+                     <ExitToAppIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+               </ListItemButton>
+            </ListItem>
          </List>
       </Box>
    );
 
    return (
-      <div>
-         <React.Fragment key="drawer">
-            <SwipeableDrawer
-               anchor="left"
-               open={isNavOpen}
-               onClose={handleNavToggle}
-               onOpen={handleNavToggle}
-            >
-               {list()}
-            </SwipeableDrawer>
-         </React.Fragment>
-      </div>
+      <Drawer
+         variant={isNavOpen ? "permanent" : "temporary"}
+         anchor="left"
+         open={isNavOpen}
+         onClose={handleNavToggle}
+         sx={{
+            height: "100vh",
+            "& .MuiDrawer-paper": {
+               position: "static",
+            },
+         }}
+      >
+         {list()}
+      </Drawer>
    );
 }
