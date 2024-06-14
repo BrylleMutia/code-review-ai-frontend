@@ -6,10 +6,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
 type CustomAppBarProps = {
-   handleNavToggle: () => void;
+   handleSidebarToggle: () => void;
 };
 
-export default function CustomAppBar({ handleNavToggle }: CustomAppBarProps) {
+export default function CustomAppBar({
+   handleSidebarToggle,
+}: CustomAppBarProps) {
    const [auth] = useState(true);
    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -30,7 +32,7 @@ export default function CustomAppBar({ handleNavToggle }: CustomAppBarProps) {
                color="inherit"
                aria-label="menu"
                sx={{ mr: 2 }}
-               onClick={handleNavToggle}
+               onClick={handleSidebarToggle}
             >
                <MenuIcon />
             </IconButton>
