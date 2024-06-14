@@ -1,4 +1,3 @@
-import React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -11,16 +10,32 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 import ConversationsList from "./ConversationsList";
+import { AppContextType } from "../context/types";
+import { AppContext } from "../context/AppContext";
+import { useContext } from "react";
 
 type CustomDrawerProps = {
-   handleNavToggle: () => void;
+   handleSidebarToggle: () => void;
    isNavOpen: boolean;
 };
 
 export default function CustomDrawer({
-   handleNavToggle,
+   handleSidebarToggle,
    isNavOpen,
 }: CustomDrawerProps) {
+   const { handleAuthChange, handleUserDetailsChange, userDetails } =
+      useContext(AppContext) as AppContextType;
+
+   const handleUserLogout = () => {
+      handleAuthChange(false);
+      handleUserDetailsChange({
+         id: "",
+         email: "",
+         name: "",
+      });
+      localStorage.removeItem("access_token");
+   };
+
    const list = () => (
       <Box
          role="presentation"
@@ -42,16 +57,19 @@ export default function CustomDrawer({
                   <ListItemIcon sx={{ paddingLeft: "2em" }}>
                      <AccountCircleIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Profile" />
+                  <ListItemText
+                     sx={{ paddingLeft: "1em" }}
+                     primary={userDetails.name}
+                  />
                </ListItemButton>
             </ListItem>
 
             <ListItem key="logout" disablePadding>
-               <ListItemButton>
+               <ListItemButton onClick={handleUserLogout}>
                   <ListItemIcon sx={{ paddingLeft: "2em" }}>
                      <ExitToAppIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Logout" />
+                  <ListItemText sx={{ paddingLeft: "1em" }} primary="Logout" />
                </ListItemButton>
             </ListItem>
          </List>
@@ -63,7 +81,7 @@ export default function CustomDrawer({
          variant={isNavOpen ? "permanent" : "temporary"}
          anchor="left"
          open={isNavOpen}
-         onClose={handleNavToggle}
+         onClose={handleSidebarToggle}
          sx={{
             height: "100vh",
             "& .MuiDrawer-paper": {
