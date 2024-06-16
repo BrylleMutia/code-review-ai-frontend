@@ -43,8 +43,6 @@ export default function LogIn() {
 
       if (email && password) {
          AuthService.loginUser(email, password, rememberMe).then((response) => {
-            console.log(response.data);
-
             const { id, name, email, access_token } = response.data;
             handleUserDetailsChange({ id, name, email });
             handleAuthChange(true);

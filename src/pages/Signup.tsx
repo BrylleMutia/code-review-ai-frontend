@@ -42,8 +42,6 @@ export default function SignUp() {
 
       if (email && password && username) {
          AuthService.signupUser(email, username, password).then((response) => {
-            console.log(response.data);
-
             const { id, name, email, access_token } = response.data;
             handleUserDetailsChange({ id, name, email });
             handleAuthChange(true);
