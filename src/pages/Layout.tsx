@@ -28,6 +28,7 @@ const Layout = () => {
             alignItems: "flex-start",
             flexShrink: "1",
             width: "100%",
+            height: "100%",
          }}
       >
          <CustomDrawer
@@ -40,6 +41,7 @@ const Layout = () => {
                display: "flex",
                flexDirection: "column",
                width: "100%",
+               height: "100%",
             }}
          >
             <CustomAppBar handleSidebarToggle={handleSidebarOpen} />
@@ -47,13 +49,13 @@ const Layout = () => {
             {/* Outlet is all child routes from App.tsx */}
             {/* Auth check, redirect to auth page if not authenticated */}
             {/* {isAuthenticated && <Outlet />} */}
-            <main className="flex justify-center w-full grow bg-white h-full">
+            <Box sx={{ height: "100%", flexGrow: 1 }}>
                {isAuthenticated || token ? (
                   <Outlet context={[isSidebarOpen, handleSidebarOpen]} />
                ) : (
                   <Navigate to={"/auth"} />
                )}
-            </main>
+            </Box>
          </Box>
       </Box>
    );
