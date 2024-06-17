@@ -23,25 +23,9 @@ export default function CustomDrawer({
    handleSidebarToggle,
    isNavOpen,
 }: CustomDrawerProps) {
-   const {
-      handleAuthChange,
-      handleUserDetailsChange,
-      userDetails,
-      handleChatBoxModeChange,
-      handlePackageDetailsChange,
-   } = useContext(AppContext) as AppContextType;
-
-   const handleUserLogout = () => {
-      handleAuthChange(false);
-      handleUserDetailsChange({
-         id: "",
-         email: "",
-         name: "",
-      });
-      handleChatBoxModeChange("package");
-      handlePackageDetailsChange(null);
-      localStorage.removeItem("access_token");
-   };
+   const { userDetails, handleUserLogout } = useContext(
+      AppContext
+   ) as AppContextType;
 
    const list = () => (
       <Box

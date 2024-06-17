@@ -30,11 +30,25 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
    const handleSetSyncLoading = (syncState: boolean) => {
       setIsSyncLoading(syncState);
    };
-   const handlePackageDetailsChange = (packageDetails: BasePackageDetails | null) => {
+   const handlePackageDetailsChange = (
+      packageDetails: BasePackageDetails | null
+   ) => {
       setPackageDetails(packageDetails);
    };
    const handleChatBoxModeChange = (mode: ChatBoxMode) => {
       setChatBoxMode(mode);
+   };
+
+   const handleUserLogout = () => {
+      handleAuthChange(false);
+      handleUserDetailsChange({
+         id: "",
+         email: "",
+         name: "",
+      });
+      handleChatBoxModeChange("package");
+      handlePackageDetailsChange(null);
+      localStorage.removeItem("access_token");
    };
 
    return (
@@ -49,7 +63,8 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
             packageDetails,
             handlePackageDetailsChange,
             chatBoxMode,
-            handleChatBoxModeChange
+            handleChatBoxModeChange,
+            handleUserLogout,
          }}
       >
          {children}

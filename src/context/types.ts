@@ -13,6 +13,7 @@ export type AppContextType = {
    ) => void;
    chatBoxMode: ChatBoxMode;
    handleChatBoxModeChange: (mode: ChatBoxMode) => void;
+   handleUserLogout: () => void;
 };
 
 export type UserDetails = {
