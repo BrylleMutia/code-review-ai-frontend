@@ -17,13 +17,15 @@ export type ModuleDetails = {
    referenced_name: string;
 };
 
+export type BasePackageDetails = {
+   line_count: number;
+   package_name: string;
+   ref_modules: ModuleDetails[];
+   ref_tables: string[];
+};
+
 export type SetPackageRes = {
-   data: {
-      line_count: number;
-      package_name: string;
-      ref_modules: ModuleDetails[];
-      ref_tables: string[];
-   };
+   data: BasePackageDetails;
 };
 
 export type PromptRes = {
