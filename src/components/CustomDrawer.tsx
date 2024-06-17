@@ -23,8 +23,13 @@ export default function CustomDrawer({
    handleSidebarToggle,
    isNavOpen,
 }: CustomDrawerProps) {
-   const { handleAuthChange, handleUserDetailsChange, userDetails } =
-      useContext(AppContext) as AppContextType;
+   const {
+      handleAuthChange,
+      handleUserDetailsChange,
+      userDetails,
+      handleChatBoxModeChange,
+      handlePackageDetailsChange,
+   } = useContext(AppContext) as AppContextType;
 
    const handleUserLogout = () => {
       handleAuthChange(false);
@@ -33,6 +38,8 @@ export default function CustomDrawer({
          email: "",
          name: "",
       });
+      handleChatBoxModeChange("package");
+      handlePackageDetailsChange(null);
       localStorage.removeItem("access_token");
    };
 
@@ -58,7 +65,7 @@ export default function CustomDrawer({
                      <AccountCircleIcon />
                   </ListItemIcon>
                   <ListItemText
-                     sx={{ paddingLeft: "1em" }}
+                     sx={{ paddingX: "1em" }}
                      primary={userDetails.name}
                   />
                </ListItemButton>
@@ -69,7 +76,7 @@ export default function CustomDrawer({
                   <ListItemIcon sx={{ paddingLeft: "2em" }}>
                      <ExitToAppIcon />
                   </ListItemIcon>
-                  <ListItemText sx={{ paddingLeft: "1em" }} primary="Logout" />
+                  <ListItemText sx={{ paddingX: "1em" }} primary="Logout" />
                </ListItemButton>
             </ListItem>
          </List>
