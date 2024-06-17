@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -8,9 +8,15 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import ChatIcon from "@mui/icons-material/Chat";
+import PackageSelectDialog from "./PackageSelectDialog";
+import { Box } from "@mui/material";
+import { AppContextType } from "../context/types";
+import { AppContext } from "../context/AppContext";
 
 export default function ConversationsList() {
    const [open, setOpen] = React.useState(true);
+
+   const { packageDetails } = useContext(AppContext) as AppContextType;
 
    const handleClick = () => {
       setOpen(!open);
@@ -27,14 +33,23 @@ export default function ConversationsList() {
             </ListSubheader>
          }
       >
+         <Box
+            sx={{
+               display: !!packageDetails ? "flex" : "none",
+               width: "100%",
+               justifyContent: "center",
+               marginTop: "1em",
+               marginBottom: "1em",
+            }}
+         >
+            <PackageSelectDialog />
+         </Box>
+
          <ListItemButton onClick={handleClick}>
             <ListItemIcon>
                <ChatIcon />
             </ListItemIcon>
-            <ListItemText
-               sx={{ marginRight: "1em" }}
-               primary="Your conversations"
-            />
+            <ListItemText sx={{ marginRight: "1em" }} primary="Reviews" />
             {open ? <ExpandLess /> : <ExpandMore />}
          </ListItemButton>
          <Collapse in={open} timeout="auto" unmountOnExit>
