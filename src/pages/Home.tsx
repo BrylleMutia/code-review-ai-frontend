@@ -25,6 +25,7 @@ export default function Home() {
                width: "100%",
                display: "flex",
                justifyContent: "center",
+               marginTop: "auto",
             }}
          >
             {!packageDetails && !isSyncLoading ? (
@@ -36,11 +37,10 @@ export default function Home() {
 
          <Box
             sx={{
-               position: "absolute",
-               bottom: "0px",
-               left: "50%",
-               transform: "translateX(-25%)",
-               marginBottom: "1em",
+               width: "100%",
+               display: "flex",
+               justifyContent: "center",
+               marginTop: "auto",
             }}
          >
             <Box

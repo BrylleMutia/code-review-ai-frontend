@@ -3,6 +3,7 @@ import { AppContextType } from "../context/types";
 import { AppContext } from "../context/AppContext";
 import ChatBoxPackageDetails from "./ChatBoxPackageDetails";
 import ChatBoxPrompt from "./ChatBoxPrompt";
+import { Box } from "@mui/material";
 
 const ChatBox = () => {
    const { chatBoxMode } = useContext(AppContext) as AppContextType;
@@ -20,7 +21,7 @@ const ChatBox = () => {
       }
    };
 
-   return <div>{chatBoxModeDisplay()}</div>;
+   return <Box>{chatBoxModeDisplay()}</Box>;
 };
 
 export default ChatBox;
