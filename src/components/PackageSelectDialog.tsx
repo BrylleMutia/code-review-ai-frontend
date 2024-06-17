@@ -21,11 +21,7 @@ import { AppContext } from "../context/AppContext";
 import { AppContextType } from "../context/types";
 import ReviewService from "../services/ReviewService";
 
-type PackageSelectDialogProps = {
-   hidden?: boolean;
-};
-
-const PackageSelectDialog = ({ hidden = true }: PackageSelectDialogProps) => {
+const PackageSelectDialog = () => {
    const [isDialogOpen, setIsDialogOpen] = useState(false);
    const [searchPackage, setSearchPackage] = useState<string | null>(null);
    const [matchedPackages, setMatchedPackages] = useState<string[]>([]);
@@ -98,7 +94,6 @@ const PackageSelectDialog = ({ hidden = true }: PackageSelectDialogProps) => {
             variant="contained"
             startIcon={<AddIcon />}
             onClick={handleDialogOpen}
-            hidden={hidden}
          >
             New Review
          </Button>
