@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -13,17 +13,31 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import AddIcon from "@mui/icons-material/Add";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 
+import { AppContext } from "../context/AppContext";
+import { AppContextType } from "../context/types";
 import ReviewService from "../services/ReviewService";
 
-const PackageSelectDialog = () => {
+type PackageSelectDialogProps = {
+   hidden?: boolean;
+};
+
+const PackageSelectDialog = ({ hidden = true }: PackageSelectDialogProps) => {
    const [isDialogOpen, setIsDialogOpen] = useState(false);
    const [searchPackage, setSearchPackage] = useState<string | null>(null);
    const [matchedPackages, setMatchedPackages] = useState<string[]>([]);
    const [selectedPackage, setSelectedPackage] = useState<string>("");
    const [isSearchCaptionShown, setIsSearchCaptionShown] = useState(false);
+   const [isSearchLoading, setIsSearchLoading] = useState(false);
+
+   const {
+      handlePackageDetailsChange,
+      handleSetSyncLoading,
+      handleChatBoxModeChange,
+   } = useContext(AppContext) as AppContextType;
 
    const handleDialogOpen = () => {
       setIsDialogOpen(true);
@@ -42,8 +56,11 @@ const PackageSelectDialog = () => {
 
    const handlePackageSearch = () => {
       if (searchPackage) {
+         setIsSearchLoading(true);
+
          ReviewService.findPackage(searchPackage).then((response) => {
             setMatchedPackages(response.data.packages);
+            setIsSearchLoading(false);
 
             if (response.data.packages.length) {
                setSelectedPackage(response.data.packages[0]);
@@ -65,9 +82,12 @@ const PackageSelectDialog = () => {
       if (selectedPackage) {
          setIsSearchCaptionShown(false);
          handleDialogClose();
+         handleSetSyncLoading(true);
+         handleChatBoxModeChange("package");
 
          ReviewService.setPackage(selectedPackage).then((response) => {
-            console.log(response.data.data);
+            handlePackageDetailsChange(response.data.data);
+            handleSetSyncLoading(false);
          });
       }
    };
@@ -78,6 +98,7 @@ const PackageSelectDialog = () => {
             variant="contained"
             startIcon={<AddIcon />}
             onClick={handleDialogOpen}
+            hidden={hidden}
          >
             New Review
          </Button>
@@ -127,7 +148,11 @@ const PackageSelectDialog = () => {
                         type="button"
                         onClick={handlePackageSearch}
                      >
-                        <SearchIcon />
+                        {isSearchLoading ? (
+                           <CircularProgress color="inherit" size={23} />
+                        ) : (
+                           <SearchIcon />
+                        )}
                      </IconButton>
                   </FormControl>
 
