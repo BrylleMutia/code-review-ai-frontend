@@ -1,8 +1,16 @@
 import { Box } from "@mui/material";
 import ChatInput from "../components/ChatInput";
 import PackageSelectDialog from "../components/PackageSelectDialog";
+import { AppContext } from "../context/AppContext";
+import { useContext } from "react";
+import { AppContextType } from "../context/types";
+import ChatBox from "../components/ChatBox";
 
 export default function Home() {
+   const { packageDetails, isSyncLoading } = useContext(
+      AppContext
+   ) as AppContextType;
+
    return (
       <Box
          sx={{
@@ -19,7 +27,11 @@ export default function Home() {
                justifyContent: "center",
             }}
          >
-            <PackageSelectDialog />
+            {!packageDetails && !isSyncLoading ? (
+               <PackageSelectDialog />
+            ) : (
+               <ChatBox />
+            )}
          </Box>
 
          <Box
@@ -31,7 +43,11 @@ export default function Home() {
                marginBottom: "1em",
             }}
          >
-            <Box sx={{ width: "40em" }}>
+            <Box
+               sx={{ width: "40em", marginBottom: "1em" }}
+               hidden={!packageDetails}
+            >
+               {/* TODO: Fix chat input now adjusting to center when drawer is closed */}
                <ChatInput />
             </Box>
          </Box>
