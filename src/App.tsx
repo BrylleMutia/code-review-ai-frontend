@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 import Home from "./pages/Home";
 import SignUp from "./pages/Signup";
@@ -15,6 +15,8 @@ function App() {
       AppContext
    ) as AppContextType;
 
+   const navigate = useNavigate();
+
    useEffect(() => {
       AuthService.checkToken()
          .then((response) => {
@@ -24,6 +26,8 @@ function App() {
          })
          .catch(() => {
             handleAuthChange(false);
+            localStorage.removeItem("access_token");
+            navigate("/auth");
          });
    }, []);
 
@@ -47,5 +51,6 @@ function App() {
 
 export default App;
 
-// TODO: Implement homepage UI with chat
 // TODO: Theme Provider for MUI
+// TODO: Upload file for review + store in backend / db
+// TODO:
