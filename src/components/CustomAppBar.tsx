@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import { AppContext } from "../context/AppContext";
+import { AppContextType } from "../context/types";
 
 type CustomAppBarProps = {
    handleSidebarToggle: () => void;
@@ -14,6 +16,10 @@ export default function CustomAppBar({
 }: CustomAppBarProps) {
    const [auth] = useState(true);
    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+   const { handleUserLogout } = useContext(
+      AppContext
+   ) as AppContextType;
 
    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
       setAnchorEl(event.currentTarget);
@@ -67,7 +73,7 @@ export default function CustomAppBar({
                      onClose={handleClose}
                   >
                      <MenuItem onClick={handleClose}>Profile</MenuItem>
-                     <MenuItem onClick={handleClose}>Logout</MenuItem>
+                     <MenuItem onClick={handleUserLogout}>Logout</MenuItem>
                   </Menu>
                </div>
             )}
