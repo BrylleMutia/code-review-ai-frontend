@@ -8,7 +8,7 @@ type ChatBoxCardProps = {
 
 export default function ChatBoxCard({ children }: ChatBoxCardProps) {
    return (
-      <Box sx={{ minWidth: "500px" }}>
+      <Box sx={{ minWidth: "500px", maxWidth: "700px", margin: "1em" }}>
          <Card variant="outlined">{children}</Card>
       </Box>
    );
