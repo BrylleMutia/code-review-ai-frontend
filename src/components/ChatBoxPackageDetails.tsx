@@ -4,11 +4,12 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Skeleton from "@mui/material/Skeleton";
+import { Box } from "@mui/material";
 
 import { AppContextType } from "../context/types";
 import { AppContext } from "../context/AppContext";
-import { Box } from "@mui/material";
 import ChatBoxCard from "./ChatBoxCard";
+import ReviewService from "../services/ReviewService";
 
 const ChatBoxPackageDetailsLoading = () => {
    return (
@@ -87,16 +88,34 @@ const ChatBoxPackageDetailsLoading = () => {
             </Box>
          </CardContent>
          <CardActions>
-            <Button size="small">Learn More</Button>
+            <Button size="small" variant="outlined">
+               Continue
+            </Button>
          </CardActions>
       </React.Fragment>
    );
 };
 
 const ChatBoxPackageDetails = () => {
-   const { packageDetails, isSyncLoading } = useContext(
-      AppContext
-   ) as AppContextType;
+   const {
+      packageDetails,
+      isSyncLoading,
+      handleSetSyncLoading,
+      handleUpdatePrompts,
+   } = useContext(AppContext) as AppContextType;
+
+   const continueCodeReview = (templateNum: number) => {
+      // proceed with the next step after initial code review
+      handleSetSyncLoading(true);
+
+      ReviewService.setTemplate(templateNum).then((response) => {
+         handleSetSyncLoading(false);
+         handleUpdatePrompts({
+            prompt: "Initial Review",
+            response: response.data.response,
+         });
+      });
+   };
 
    return (
       <ChatBoxCard>
@@ -135,8 +154,8 @@ const ChatBoxPackageDetails = () => {
                            Referenced Modules:
                         </Typography>
 
-                        {packageDetails.ref_modules.map((module) => (
-                           <Typography variant="body2">
+                        {packageDetails.ref_modules.map((module, index) => (
+                           <Typography variant="body2" key={index}>
                               {`• ${module.referenced_type}: ${module.referenced_name}`}
                            </Typography>
                         ))}
@@ -147,14 +166,23 @@ const ChatBoxPackageDetails = () => {
                            Referenced Tables:
                         </Typography>
 
-                        {packageDetails.ref_tables.map((table) => (
-                           <Typography variant="body2">{`• ${table}`}</Typography>
+                        {packageDetails.ref_tables.map((table, index) => (
+                           <Typography
+                              variant="body2"
+                              key={index}
+                           >{`• ${table}`}</Typography>
                         ))}
                      </Box>
                   </Box>
                </CardContent>
                <CardActions>
-                  <Button size="small">Learn More</Button>
+                  <Button
+                     size="small"
+                     variant="outlined"
+                     onClick={() => continueCodeReview(1)}
+                  >
+                     Continue
+                  </Button>
                </CardActions>
             </React.Fragment>
          ) : (
