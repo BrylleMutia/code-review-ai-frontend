@@ -13,6 +13,8 @@ export type AppContextType = {
    ) => void;
    chatBoxMode: ChatBoxMode;
    handleChatBoxModeChange: (mode: ChatBoxMode) => void;
+   promptResponses: Prompt[];
+   handleUpdatePrompts: (prompt: Prompt) => void;
    handleUserLogout: () => void;
 };
 
@@ -20,6 +22,11 @@ export type UserDetails = {
    id: string;
    email: string;
    name: string;
+};
+
+export type Prompt = {
+   prompt: string;
+   response: string;
 };
 
 export type ChatBoxMode = "package" | "prompt";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createContext } from "react";
-import { AppContextType, ChatBoxMode, UserDetails } from "./types";
+import { AppContextType, ChatBoxMode, Prompt, UserDetails } from "./types";
 import { BasePackageDetails } from "../services/types";
 export const AppContext = createContext<AppContextType | null>(null);
 
@@ -17,6 +17,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
    });
    const [packageDetails, setPackageDetails] =
       useState<BasePackageDetails | null>(null);
+   const [promptResponses, setPromptResponses] = useState<Prompt[]>([]);
    const [isSyncLoading, setIsSyncLoading] = useState(false);
    const [chatBoxMode, setChatBoxMode] = useState<ChatBoxMode>("package");
 
@@ -37,6 +38,10 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
    };
    const handleChatBoxModeChange = (mode: ChatBoxMode) => {
       setChatBoxMode(mode);
+   };
+
+   const handleUpdatePrompts = (prompt: Prompt) => {
+      setPromptResponses((prev) => [...prev, prompt]);
    };
 
    const handleUserLogout = () => {
@@ -65,6 +70,8 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
             chatBoxMode,
             handleChatBoxModeChange,
             handleUserLogout,
+            promptResponses,
+            handleUpdatePrompts
          }}
       >
          {children}
