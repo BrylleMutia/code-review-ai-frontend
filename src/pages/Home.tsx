@@ -26,6 +26,7 @@ export default function Home() {
                display: "flex",
                justifyContent: "center",
                marginTop: "auto",
+               overflowY: "scroll",
             }}
          >
             {!packageDetails && !isSyncLoading ? (
@@ -44,10 +45,9 @@ export default function Home() {
             }}
          >
             <Box
-               sx={{ width: "40em", marginBottom: "1em" }}
+               sx={{ width: "40em", marginY: "1em" }}
                hidden={!packageDetails}
             >
-               {/* TODO: Fix chat input now adjusting to center when drawer is closed */}
                <ChatInput />
             </Box>
          </Box>
