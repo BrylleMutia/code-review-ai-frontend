@@ -6,22 +6,24 @@ import ChatBoxPrompt from "./ChatBoxPrompt";
 import { Box } from "@mui/material";
 
 const ChatBox = () => {
-   const { chatBoxMode } = useContext(AppContext) as AppContextType;
+   const { promptResponses } = useContext(
+      AppContext
+   ) as AppContextType;
 
-   const chatBoxModeDisplay = () => {
-      switch (chatBoxMode) {
-         case "package":
-            return <ChatBoxPackageDetails />;
+   return (
+      <Box>
+         <ChatBoxPackageDetails />
 
-         case "prompt":
-            return <ChatBoxPrompt />;
-
-         default:
-            return <ChatBoxPackageDetails />;
-      }
-   };
-
-   return <Box>{chatBoxModeDisplay()}</Box>;
+         {!!promptResponses.length &&
+            promptResponses.map((prompt, index) => (
+               <ChatBoxPrompt
+                  key={index}
+                  prompt={prompt.prompt}
+                  response={prompt.response}
+               />
+            ))}
+      </Box>
+   );
 };
 
 export default ChatBox;
