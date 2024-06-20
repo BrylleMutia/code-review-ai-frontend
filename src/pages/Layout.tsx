@@ -40,8 +40,9 @@ const Layout = () => {
             sx={{
                display: "flex",
                flexDirection: "column",
+               justifyContent: "flex-start",
                width: "100%",
-               height: "100%",
+               height: "93%",
             }}
          >
             <CustomAppBar handleSidebarToggle={handleSidebarOpen} />
