@@ -3,33 +3,31 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Skeleton from "@mui/material/Skeleton";
 import { Box } from "@mui/material";
 import Markdown from "react-markdown";
 
 import ChatBoxCard from "./ChatBoxCard";
-import { AppContextType } from "../context/types";
+import { AppContextType, Prompt } from "../context/types";
 import { AppContext } from "../context/AppContext";
 import ReviewService from "../services/ReviewService";
+import ChatBoxCardLoading from "./ChatBoxCardLoading";
 
-type ChatBoxPromptProps = {
-   prompt: string;
-   response: string;
-};
+type ChatBoxPromptProps = {} & Prompt;
 
-const ChatBoxPrompt = ({ prompt, response }: ChatBoxPromptProps) => {
-   const {
-      packageDetails,
-      isSyncLoading,
-      handleSetSyncLoading,
-      handleUpdatePrompts,
-   } = useContext(AppContext) as AppContextType;
+const ChatBoxPrompt = ({
+   id,
+   prompt,
+   response,
+   isLoading,
+}: ChatBoxPromptProps) => {
+   const { packageDetails, handleUpdatePrompts } = useContext(
+      AppContext
+   ) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
       // proceed with the next step after initial code review
       // 2: Issues
       // 3: Comments
-      handleSetSyncLoading(true);
 
       switch (templateNum) {
          case 2:
@@ -43,12 +41,23 @@ const ChatBoxPrompt = ({ prompt, response }: ChatBoxPromptProps) => {
             prompt = "";
       }
 
+      // set empty placeholder prompt for loader while waiting for response
+      // prompt id is last prompt + 1
+      handleUpdatePrompts({
+         id: id + 1,
+         prompt: "",
+         response: "",
+         isLoading: true,
+      });
+
       if (prompt) {
          ReviewService.sendPrompt(prompt).then((response) => {
-            handleSetSyncLoading(false);
+            // set true prompt details to replace placeholder prompt
             handleUpdatePrompts({
+               id: id + 1,
                prompt,
                response: response.data.response,
+               isLoading: false,
             });
          });
       }
@@ -56,7 +65,7 @@ const ChatBoxPrompt = ({ prompt, response }: ChatBoxPromptProps) => {
 
    return (
       <ChatBoxCard>
-         {!isSyncLoading && packageDetails ? (
+         {!isLoading && packageDetails ? (
             <React.Fragment>
                <CardContent sx={{ padding: "0" }}>
                   <Box
@@ -90,14 +99,21 @@ const ChatBoxPrompt = ({ prompt, response }: ChatBoxPromptProps) => {
                   <Button
                      size="small"
                      variant="outlined"
-                     onClick={() => continueCodeReview(1)}
+                     onClick={() => continueCodeReview(2)}
                   >
-                     Continue
+                     Issues
+                  </Button>
+                  <Button
+                     size="small"
+                     variant="outlined"
+                     onClick={() => continueCodeReview(3)}
+                  >
+                     Comments
                   </Button>
                </CardActions>
             </React.Fragment>
          ) : (
-            <ChatBoxPackageDetailsLoading />
+            <ChatBoxCardLoading />
          )}
       </ChatBoxCard>
    );
