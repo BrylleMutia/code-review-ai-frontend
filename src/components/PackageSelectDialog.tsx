@@ -32,7 +32,7 @@ const PackageSelectDialog = () => {
    const {
       handlePackageDetailsChange,
       handleSetSyncLoading,
-      handleChatBoxModeChange,
+      handleUpdatePrompts,
    } = useContext(AppContext) as AppContextType;
 
    const handleDialogOpen = () => {
@@ -79,7 +79,9 @@ const PackageSelectDialog = () => {
          setIsSearchCaptionShown(false);
          handleDialogClose();
          handleSetSyncLoading(true);
-         handleChatBoxModeChange("package");
+
+         // clear up prompts from previous review
+         handleUpdatePrompts(null);
 
          ReviewService.setPackage(selectedPackage).then((response) => {
             handlePackageDetailsChange(response.data.data);
