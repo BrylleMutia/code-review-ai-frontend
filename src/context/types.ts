@@ -11,10 +11,8 @@ export type AppContextType = {
    handlePackageDetailsChange: (
       packageDetails: BasePackageDetails | null
    ) => void;
-   chatBoxMode: ChatBoxMode;
-   handleChatBoxModeChange: (mode: ChatBoxMode) => void;
-   promptResponses: Prompt[];
-   handleUpdatePrompts: (prompt: Prompt) => void;
+   promptResponses: Prompt[] | null;
+   handleUpdatePrompts: (prompt: Prompt | null) => void;
    handleUserLogout: () => void;
 };
 
@@ -25,8 +23,8 @@ export type UserDetails = {
 };
 
 export type Prompt = {
+   id: number;
    prompt: string;
    response: string;
+   isLoading: boolean;
 };
-
-export type ChatBoxMode = "package" | "prompt";

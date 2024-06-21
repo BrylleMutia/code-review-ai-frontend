@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createContext } from "react";
-import { AppContextType, ChatBoxMode, Prompt, UserDetails } from "./types";
+import { AppContextType, Prompt, UserDetails } from "./types";
 import { BasePackageDetails } from "../services/types";
 export const AppContext = createContext<AppContextType | null>(null);
 
@@ -17,9 +17,10 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
    });
    const [packageDetails, setPackageDetails] =
       useState<BasePackageDetails | null>(null);
-   const [promptResponses, setPromptResponses] = useState<Prompt[]>([]);
+   const [promptResponses, setPromptResponses] = useState<Prompt[] | null>(
+      null
+   );
    const [isSyncLoading, setIsSyncLoading] = useState(false);
-   const [chatBoxMode, setChatBoxMode] = useState<ChatBoxMode>("package");
 
    const handleAuthChange = (authState: boolean) => {
       setIsAuthenticated(authState);
@@ -36,12 +37,25 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
    ) => {
       setPackageDetails(packageDetails);
    };
-   const handleChatBoxModeChange = (mode: ChatBoxMode) => {
-      setChatBoxMode(mode);
-   };
 
-   const handleUpdatePrompts = (prompt: Prompt) => {
-      setPromptResponses((prev) => [...prev, prompt]);
+   const handleUpdatePrompts = (prompt: Prompt | null) => {
+      setPromptResponses((prev) => {
+         if (prev && prompt) {
+            // remove placeholder prompt from array for loader
+            // then add true prompt details to display on chatbox
+            let prevPromptsNoPlaceholder = prev.filter(
+               (prevPrompt) => prevPrompt.id !== prompt.id
+            );
+
+            return [...prevPromptsNoPlaceholder, prompt];
+         } else if (prompt) {
+            // add initial prompt
+            return [prompt];
+         }
+
+         // clear prompts array if null is sent
+         return null;
+      });
    };
 
    const handleUserLogout = () => {
@@ -51,7 +65,6 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
          email: "",
          name: "",
       });
-      handleChatBoxModeChange("package");
       handlePackageDetailsChange(null);
       localStorage.removeItem("access_token");
    };
@@ -67,11 +80,9 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
             handleSetSyncLoading,
             packageDetails,
             handlePackageDetailsChange,
-            chatBoxMode,
-            handleChatBoxModeChange,
             handleUserLogout,
             promptResponses,
-            handleUpdatePrompts
+            handleUpdatePrompts,
          }}
       >
          {children}
