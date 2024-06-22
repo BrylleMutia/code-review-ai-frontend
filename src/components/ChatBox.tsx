@@ -1,12 +1,18 @@
-import React, { useContext } from "react";
+import React, { createRef, useContext } from "react";
 import { AppContextType } from "../context/types";
 import { AppContext } from "../context/AppContext";
 import ChatBoxPackageDetails from "./ChatBoxPackageDetails";
 import ChatBoxPrompt from "./ChatBoxPrompt";
 import { Box } from "@mui/material";
 
+import { useScrollIntoView } from "../hooks";
+
 const ChatBox = () => {
    const { promptResponses } = useContext(AppContext) as AppContextType;
+
+   const latestPromptCardRef = createRef<HTMLDivElement>();
+
+   useScrollIntoView(latestPromptCardRef, promptResponses);
 
    return (
       <Box sx={{ marginTop: "2em" }}>
@@ -22,6 +28,8 @@ const ChatBox = () => {
                   isLoading={prompt.isLoading}
                />
             ))}
+
+         <div ref={latestPromptCardRef} />
       </Box>
    );
 };
