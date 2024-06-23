@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createContext } from "react";
-import { AppContextType, Prompt, UserDetails } from "./types";
+import { AppContextType, Prompt, SnackBarConfig, UserDetails } from "./types";
 import { BasePackageDetails } from "../services/types";
 export const AppContext = createContext<AppContextType | null>(null);
 
@@ -21,6 +21,10 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       null
    );
    const [isSyncLoading, setIsSyncLoading] = useState(false);
+   const [snackBarDetails, setSnackBarDetails] = useState<SnackBarConfig>({
+      isShown: false,
+      message: "",
+   });
 
    const handleAuthChange = (authState: boolean) => {
       setIsAuthenticated(authState);
@@ -69,6 +73,10 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       localStorage.removeItem("access_token");
    };
 
+   const handleChangeSnackbar = (snackBar: SnackBarConfig) => {
+      setSnackBarDetails(snackBar);
+   };
+
    return (
       <AppContext.Provider
          value={{
@@ -83,6 +91,8 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
             handleUserLogout,
             promptResponses,
             handleUpdatePrompts,
+            snackBarDetails,
+            handleChangeSnackbar,
          }}
       >
          {children}

@@ -14,6 +14,8 @@ export type AppContextType = {
    promptResponses: Prompt[] | null;
    handleUpdatePrompts: (prompt: Prompt | null) => void;
    handleUserLogout: () => void;
+   snackBarDetails: SnackBarConfig;
+   handleChangeSnackbar: (snackBar: SnackBarConfig) => void;
 };
 
 export type UserDetails = {
@@ -27,4 +29,9 @@ export type Prompt = {
    prompt: string;
    response: string;
    isLoading: boolean;
+};
+
+export type SnackBarConfig = {
+   isShown: boolean;
+   message: string;
 };
