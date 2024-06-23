@@ -15,10 +15,13 @@ const ChatBoxPackageDetails = () => {
    const {
       packageDetails,
       isSyncLoading,
-      handleUpdatePrompts
+      handleUpdatePrompts,
+      handleSetSyncLoading,
    } = useContext(AppContext) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
+      handleSetSyncLoading(true);
+
       // proceed with the next step after initial code review
       // set empty placeholder prompt for loader while waiting for response
       handleUpdatePrompts({
@@ -36,12 +39,14 @@ const ChatBoxPackageDetails = () => {
             response: response.data.response,
             isLoading: false,
          });
+
+         handleSetSyncLoading(false);
       });
    };
 
    return (
       <ChatBoxCard>
-         {!isSyncLoading && packageDetails ? (
+         {packageDetails ? (
             <React.Fragment>
                <CardContent sx={{ padding: "0" }}>
                   <Box
@@ -103,7 +108,7 @@ const ChatBoxPackageDetails = () => {
                      variant="outlined"
                      onClick={() => continueCodeReview(1)}
                   >
-                     Continue
+                     Review
                   </Button>
                </CardActions>
             </React.Fragment>

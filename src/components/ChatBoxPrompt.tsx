@@ -20,9 +20,8 @@ const ChatBoxPrompt = ({
    response,
    isLoading,
 }: ChatBoxPromptProps) => {
-   const { packageDetails, handleUpdatePrompts } = useContext(
-      AppContext
-   ) as AppContextType;
+   const { packageDetails, handleUpdatePrompts, handleSetSyncLoading } =
+      useContext(AppContext) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
       // proceed with the next step after initial code review
@@ -40,6 +39,8 @@ const ChatBoxPrompt = ({
          default:
             prompt = "";
       }
+
+      handleSetSyncLoading(true);
 
       // set empty placeholder prompt for loader while waiting for response
       // prompt id is last prompt + 1
@@ -59,6 +60,8 @@ const ChatBoxPrompt = ({
                response: response.data.response,
                isLoading: false,
             });
+
+            handleSetSyncLoading(false);
          });
       }
    };

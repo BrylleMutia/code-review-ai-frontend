@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, TextField } from "@mui/material";
 // import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 
 import ReviewService from "../services/ReviewService";
+import { AppContextType } from "../context/types";
+import { AppContext } from "../context/AppContext";
 
 export default function ChatInput() {
    const [prompt, setPrompt] = useState<string | null>(null);
+
+   const { isSyncLoading } = useContext(AppContext) as AppContextType;
 
    const handlePromptChange = (
       event: React.ChangeEvent<HTMLTextAreaElement>
@@ -42,7 +46,12 @@ export default function ChatInput() {
             fullWidth
             size="small"
          />
-         <IconButton aria-label="send" color="primary" type="submit">
+         <IconButton
+            aria-label="send"
+            color="primary"
+            type="submit"
+            disabled={isSyncLoading}
+         >
             <SendIcon />
          </IconButton>
          {/* <Button variant="contained" endIcon={<SendIcon />} /> */}
