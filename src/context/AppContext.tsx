@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { createContext } from "react";
-import {
-   AppContextType,
-   Prompt,
-   Review,
-   SnackBarConfig,
-   UserDetails,
-} from "./types";
-import { BasePackageDetails } from "../services/types";
+import type { AppContextType, SnackBarConfig } from "./types";
+import type { Prompt, Review } from "../services/ReviewService.types";
+import type { BaseUserDetails } from "../services/AuthService.types";
+import type { BasePackageDetails } from "../services/ReviewService.types";
+
 export const AppContext = createContext<AppContextType | null>(null);
 
 type AppContextProviderProps = {
@@ -16,7 +13,7 @@ type AppContextProviderProps = {
 
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
    const [isAuthenticated, setIsAuthenticated] = useState(false);
-   const [userDetails, setUserDetails] = useState<UserDetails>({
+   const [userDetails, setUserDetails] = useState<BaseUserDetails>({
       id: "",
       email: "",
       name: "",
@@ -36,7 +33,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
    const handleAuthChange = (authState: boolean) => {
       setIsAuthenticated(authState);
    };
-   const handleUserDetailsChange = (userDetails: UserDetails) => {
+   const handleUserDetailsChange = (userDetails: BaseUserDetails) => {
       setUserDetails(userDetails);
       localStorage.setItem("userId", userDetails.id);
    };

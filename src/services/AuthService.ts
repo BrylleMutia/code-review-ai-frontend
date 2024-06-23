@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import http from "../http";
-import { BaseUserDetails, UserDetailsAuth } from "./types";
+import { BaseUserDetails, UserDetailsAuth } from "./AuthService.types";
 import { getAccessToken } from "../utils/token";
 
 const signupUser = async (

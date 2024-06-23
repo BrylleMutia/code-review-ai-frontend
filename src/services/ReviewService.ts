@@ -1,8 +1,7 @@
 import { AxiosResponse } from "axios";
 import http from "../http";
-import { FindPackageRes, PromptRes, SetPackageRes } from "./types";
 import { getAccessToken } from "../utils/token";
-import { ReviewResponse } from "../context/types";
+import { ReviewResponse, SetPackageRes, PromptRes, FindPackageRes } from "./ReviewService.types";
 
 const findPackage = async (
    packageStr: string

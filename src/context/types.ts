@@ -1,10 +1,12 @@
-import type { BasePackageDetails } from "../services/types";
+import { BaseUserDetails } from "../services/AuthService.types";
+import type { BasePackageDetails } from "../services/ReviewService.types";
+import type { Prompt, Review } from "../services/ReviewService.types";
 
 export type AppContextType = {
    isAuthenticated: boolean;
    handleAuthChange: (authState: boolean) => void;
-   userDetails: UserDetails;
-   handleUserDetailsChange: (userDetails: UserDetails) => void;
+   userDetails: BaseUserDetails;
+   handleUserDetailsChange: (userDetails: BaseUserDetails) => void;
    isSyncLoading: boolean;
    handleSetSyncLoading: (syncState: boolean) => void;
    packageDetails: BasePackageDetails | null;
@@ -20,31 +22,7 @@ export type AppContextType = {
    handleUpdateReviews: (reviews: Review[]) => void;
 };
 
-export type UserDetails = {
-   id: string;
-   email: string;
-   name: string;
-};
-
-export type Prompt = {
-   id: number;
-   prompt: string;
-   response: string;
-   isLoading: boolean;
-};
-
 export type SnackBarConfig = {
    isShown: boolean;
    message: string;
-};
-
-export type Review = {
-   id: number;
-   user_id: number;
-   package_name: string;
-   date_created: string;
-};
-
-export type ReviewResponse = {
-   response: Review[];
 };

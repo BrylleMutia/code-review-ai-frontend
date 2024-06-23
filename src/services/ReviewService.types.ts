@@ -1,13 +1,3 @@
-export type BaseUserDetails = {
-   id: string;
-   name: string;
-   email: string;
-};
-
-export type UserDetailsAuth = {
-   access_token: string;
-} & BaseUserDetails;
-
 export type FindPackageRes = {
    packages: string[];
 };
@@ -30,4 +20,27 @@ export type SetPackageRes = {
 
 export type PromptRes = {
    response: string;
+};
+
+export type SetTemplateRes = {
+   response: string;
+   review: Review;
+};
+
+export type Prompt = {
+   id: number;
+   prompt: string;
+   response: string;
+   isLoading: boolean;
+};
+
+export type Review = {
+   id: number;
+   user_id: number;
+   package_name: string;
+   date_created: string;
+};
+
+export type ReviewResponse = {
+   response: Review[];
 };

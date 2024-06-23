@@ -9,11 +9,10 @@ import AuthService from "./services/AuthService";
 import { AppContextType } from "./context/types";
 import { AppContext } from "./context/AppContext";
 import Layout from "./pages/Layout";
-
+import ReviewService from "./services/ReviewService";
 function App() {
-   const { handleAuthChange, handleUserDetailsChange } = useContext(
-      AppContext
-   ) as AppContextType;
+   const { handleAuthChange, handleUserDetailsChange, handleUpdateReviews } =
+      useContext(AppContext) as AppContextType;
 
    const navigate = useNavigate();
 
@@ -23,6 +22,11 @@ function App() {
             handleUserDetailsChange(response.data);
             if (response.data.id) handleAuthChange(true);
             else handleAuthChange(false);
+
+            return ReviewService.getReviews();
+         })
+         .then((response) => {
+            handleUpdateReviews(response.data.response);
          })
          .catch(() => {
             handleAuthChange(false);
@@ -51,6 +55,9 @@ function App() {
 
 export default App;
 
-// TODO: Theme Provider for MUI
+// TODO: Enable custom prompt from chat input
+// TODO: Save conversations to DB + put in sidebar
 // TODO: Upload file for review + store in backend / db
-// TODO:
+// TODO: Fix markdown code blocks getting cut on chatbox
+// TODO: Dark mode toggle
+// TODO: Theme Provider for MUI

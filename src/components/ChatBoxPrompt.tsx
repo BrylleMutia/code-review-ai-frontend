@@ -7,7 +7,8 @@ import { Box } from "@mui/material";
 import Markdown from "react-markdown";
 
 import ChatBoxCard from "./ChatBoxCard";
-import { AppContextType, Prompt } from "../context/types";
+import type { AppContextType } from "../context/types";
+import type { Prompt } from "../services/ReviewService.types";
 import { AppContext } from "../context/AppContext";
 import ReviewService from "../services/ReviewService";
 import ChatBoxCardLoading from "./ChatBoxCardLoading";
