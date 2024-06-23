@@ -7,7 +7,7 @@ import { AppContextType } from "../context/types";
 import ChatBox from "../components/ChatBox";
 
 export default function Home() {
-   const { packageDetails, isSyncLoading } = useContext(
+   const { packageDetails, isSyncLoading, promptResponses } = useContext(
       AppContext
    ) as AppContextType;
 
@@ -36,21 +36,23 @@ export default function Home() {
             )}
          </Box>
 
-         <Box
-            sx={{
-               width: "100%",
-               display: "flex",
-               justifyContent: "center",
-               marginTop: "auto",
-            }}
-         >
+         {!!promptResponses && (
             <Box
-               sx={{ width: "40em", marginY: "1em" }}
-               hidden={!packageDetails}
+               sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "auto",
+               }}
             >
-               <ChatInput />
+               <Box
+                  sx={{ width: "40em", marginY: "1em" }}
+                  hidden={!packageDetails}
+               >
+                  <ChatInput />
+               </Box>
             </Box>
-         </Box>
+         )}
       </Box>
    );
 }
