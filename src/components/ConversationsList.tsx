@@ -63,7 +63,7 @@ export default function ConversationsList() {
                                  fontSize: "0.8em",
                               },
                            }}
-                           primary={review.package_name}
+                           primary={review.review_name}
                         />
                      </ListItemButton>
                   ))}

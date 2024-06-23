@@ -38,6 +38,7 @@ export type Review = {
    id: number;
    user_id: number;
    package_name: string;
+   review_name: string;
    date_created: string;
 };
 
