@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import http from "../http";
 import { FindPackageRes, PromptRes, SetPackageRes } from "./types";
 import { getAccessToken } from "../utils/token";
+import { ReviewResponse } from "../context/types";
 
 const findPackage = async (
    packageStr: string
@@ -73,11 +74,23 @@ const sendPrompt = async (
    );
 };
 
+const getReviews = async (): Promise<AxiosResponse<ReviewResponse>> => {
+   const token = getAccessToken();
+
+   return await http.get("/code/reviews", {
+      headers: {
+         "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
+      },
+   });
+};
+
 const ReviewService = {
    findPackage,
    setPackage,
    setTemplate,
    sendPrompt,
+   getReviews,
 };
 
 export default ReviewService;

@@ -16,6 +16,8 @@ export type AppContextType = {
    handleUserLogout: () => void;
    snackBarDetails: SnackBarConfig;
    handleChangeSnackbar: (snackBar: SnackBarConfig) => void;
+   reviews: Review[] | null;
+   handleUpdateReviews: (reviews: Review[]) => void;
 };
 
 export type UserDetails = {
@@ -34,4 +36,15 @@ export type Prompt = {
 export type SnackBarConfig = {
    isShown: boolean;
    message: string;
+};
+
+export type Review = {
+   id: number;
+   user_id: number;
+   package_name: string;
+   date_created: string;
+};
+
+export type ReviewResponse = {
+   response: Review[];
 };

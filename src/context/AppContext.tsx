@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { createContext } from "react";
-import { AppContextType, Prompt, SnackBarConfig, UserDetails } from "./types";
+import {
+   AppContextType,
+   Prompt,
+   Review,
+   SnackBarConfig,
+   UserDetails,
+} from "./types";
 import { BasePackageDetails } from "../services/types";
 export const AppContext = createContext<AppContextType | null>(null);
 
@@ -25,6 +31,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       isShown: false,
       message: "",
    });
+   const [reviews, setReviews] = useState<Review[] | null>(null);
 
    const handleAuthChange = (authState: boolean) => {
       setIsAuthenticated(authState);
@@ -77,6 +84,12 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       setSnackBarDetails(snackBar);
    };
 
+   const handleUpdateReviews = (reviews: Review[]) => {
+      setReviews(reviews);
+   };
+
+   // TODO: Add function to update current reviews with latest one, get one review per request only
+
    return (
       <AppContext.Provider
          value={{
@@ -93,6 +106,8 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
             handleUpdatePrompts,
             snackBarDetails,
             handleChangeSnackbar,
+            reviews,
+            handleUpdateReviews,
          }}
       >
          {children}
