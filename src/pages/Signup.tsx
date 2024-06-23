@@ -17,14 +17,19 @@ import { AppContext } from "../context/AppContext";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { errorHandler } from "../utils/error";
 import CustomSnackbar from "../components/CustomSnackbar";
+import ReviewService from "../services/ReviewService";
 
 export default function SignUp() {
    const [username, setUsername] = useState<string | null>(null);
    const [email, setEmail] = useState<string | null>(null);
    const [password, setPassword] = useState<string | null>(null);
 
-   const { handleAuthChange, handleUserDetailsChange, handleChangeSnackbar } =
-      useContext(AppContext) as AppContextType;
+   const {
+      handleAuthChange,
+      handleUserDetailsChange,
+      handleChangeSnackbar,
+      handleUpdateReviews,
+   } = useContext(AppContext) as AppContextType;
 
    const navigate = useNavigate();
 
@@ -53,6 +58,11 @@ export default function SignUp() {
 
                // redirect to homepage
                navigate("/");
+
+               return ReviewService.getReviews();
+            })
+            .then((response) => {
+               handleUpdateReviews(response.data.response);
             })
             .catch((err) => errorHandler(err, handleChangeSnackbar));
       }

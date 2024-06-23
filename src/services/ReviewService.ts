@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import http from "../http";
 import { getAccessToken } from "../utils/token";
-import { ReviewResponse, SetPackageRes, PromptRes, FindPackageRes } from "./ReviewService.types";
+import { ReviewResponse, SetPackageRes, PromptRes, FindPackageRes, SetTemplateRes } from "./ReviewService.types";
 
 const findPackage = async (
    packageStr: string
@@ -41,7 +41,7 @@ const setPackage = async (
 
 const setTemplate = async (
    tempalateNum: number
-): Promise<AxiosResponse<PromptRes>> => {
+): Promise<AxiosResponse<SetTemplateRes>> => {
    const token = getAccessToken();
 
    return await http.post(

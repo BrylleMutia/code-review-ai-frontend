@@ -20,6 +20,7 @@ export type AppContextType = {
    handleChangeSnackbar: (snackBar: SnackBarConfig) => void;
    reviews: Review[] | null;
    handleUpdateReviews: (reviews: Review[]) => void;
+   handleAddReview: (review: Review) => void;
 };
 
 export type SnackBarConfig = {

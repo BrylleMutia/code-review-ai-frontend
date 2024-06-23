@@ -18,14 +18,19 @@ import { useNavigate, Link as RouterLink } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { errorHandler } from "../utils/error";
 import CustomSnackbar from "../components/CustomSnackbar";
+import ReviewService from "../services/ReviewService";
 
 export default function LogIn() {
    const [email, setEmail] = useState<string | null>(null);
    const [password, setPassword] = useState<string | null>(null);
    const [rememberMe, setRememberMe] = useState(false);
 
-   const { handleAuthChange, handleUserDetailsChange, handleChangeSnackbar } =
-      useContext(AppContext) as AppContextType;
+   const {
+      handleAuthChange,
+      handleUserDetailsChange,
+      handleChangeSnackbar,
+      handleUpdateReviews,
+   } = useContext(AppContext) as AppContextType;
 
    const navigate = useNavigate();
 
@@ -54,6 +59,11 @@ export default function LogIn() {
 
                // redirect to homepage
                navigate("/");
+
+               return ReviewService.getReviews();
+            })
+            .then((response) => {
+               handleUpdateReviews(response.data.response);
             })
             .catch((err) => errorHandler(err, handleChangeSnackbar));
       }

@@ -85,7 +85,15 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       setReviews(reviews);
    };
 
-   // TODO: Add function to update current reviews with latest one, get one review per request only
+   const handleAddReview = (review: Review) => {
+      setReviews((prev) => {
+         if (prev) {
+            return [review, ...prev];
+         }
+
+         return [review];
+      });
+   };
 
    return (
       <AppContext.Provider
@@ -105,6 +113,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
             handleChangeSnackbar,
             reviews,
             handleUpdateReviews,
+            handleAddReview,
          }}
       >
          {children}
