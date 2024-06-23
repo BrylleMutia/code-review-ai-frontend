@@ -29,6 +29,11 @@ const ChatBoxPrompt = ({
       promptResponses,
    } = useContext(AppContext) as AppContextType;
 
+   // used to disable action buttons on prompt card if not recent
+   const isPromptLatest = promptResponses
+      ? promptResponses[promptResponses?.length - 1].id === id
+      : true;
+
    const continueCodeReview = (templateNum: number) => {
       // proceed with the next step after initial code review
       // 2: Issues
@@ -110,6 +115,7 @@ const ChatBoxPrompt = ({
                   <Button
                      size="small"
                      variant="outlined"
+                     disabled={!isPromptLatest}
                      onClick={() => continueCodeReview(2)}
                   >
                      Issues
@@ -117,6 +123,7 @@ const ChatBoxPrompt = ({
                   <Button
                      size="small"
                      variant="outlined"
+                     disabled={!isPromptLatest}
                      onClick={() => continueCodeReview(3)}
                   >
                      Comments

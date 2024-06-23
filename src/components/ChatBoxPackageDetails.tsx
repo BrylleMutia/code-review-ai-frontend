@@ -18,6 +18,7 @@ const ChatBoxPackageDetails = () => {
       handleUpdatePrompts,
       handleSetSyncLoading,
       handleChangeSnackbar,
+      promptResponses,
    } = useContext(AppContext) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
@@ -109,6 +110,7 @@ const ChatBoxPackageDetails = () => {
                   <Button
                      size="small"
                      variant="outlined"
+                     disabled={promptResponses ? true : false}
                      onClick={() => continueCodeReview(1)}
                   >
                      Continue
