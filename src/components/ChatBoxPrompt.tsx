@@ -12,6 +12,7 @@ import { AppContext } from "../context/AppContext";
 import ReviewService from "../services/ReviewService";
 import ChatBoxCardLoading from "./ChatBoxCardLoading";
 import { errorHandler } from "../utils/error";
+import { getPromptTemplate } from "../utils/templates";
 
 type ChatBoxPromptProps = {} & Prompt;
 
@@ -39,17 +40,7 @@ const ChatBoxPrompt = ({
       // 2: Issues
       // 3: Comments
 
-      switch (templateNum) {
-         case 2:
-            prompt = "What are the top issues in the current package?";
-            break;
-         case 3:
-            prompt =
-               "Specific parts of the code that would benefit from more comments:";
-            break;
-         default:
-            prompt = "";
-      }
+      const prompt = getPromptTemplate(templateNum);
 
       handleSetSyncLoading(true);
 
@@ -127,6 +118,14 @@ const ChatBoxPrompt = ({
                      onClick={() => continueCodeReview(3)}
                   >
                      Comments
+                  </Button>
+                  <Button
+                     size="small"
+                     variant="outlined"
+                     disabled={!isPromptLatest}
+                     onClick={() => continueCodeReview(4)}
+                  >
+                     Test
                   </Button>
                </CardActions>
             </React.Fragment>
