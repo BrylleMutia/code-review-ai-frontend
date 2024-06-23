@@ -7,7 +7,12 @@ import Skeleton from "@mui/material/Skeleton";
 import { Box } from "@mui/material";
 import LinearLoader from "./LinearLoader";
 
-const ChatBoxCardLoading = () => {
+type ChatBoxCardLoadingProps = {
+   mode: "package" | "prompt";
+   prompt: string | null;
+};
+
+const ChatBoxCardLoading = ({ mode, prompt }: ChatBoxCardLoadingProps) => {
    return (
       <Box sx={{ width: "100%", textAlign: "center" }}>
          <Typography variant="caption">Generating response...</Typography>
@@ -19,31 +24,40 @@ const ChatBoxCardLoading = () => {
                      backgroundColor: "primary.main",
                      padding: "1em",
                      color: "white",
+                     textAlign: "left",
                   }}
                >
-                  <Skeleton>
-                     <Typography
-                        sx={{ fontSize: 14 }}
-                        color="text.secondary"
-                        gutterBottom
-                     >
-                        Package
-                     </Typography>
-                  </Skeleton>
-                  <Skeleton>
+                  <Typography
+                     sx={{ fontSize: 14 }}
+                     color="text.secondary"
+                     gutterBottom
+                  >
+                     {mode === "package" ? "Package" : "Prompt"}
+                  </Typography>
+
+                  {prompt ? (
                      <Typography variant="h5" component="div">
-                        Lorem ipsum dolor sit amet.
+                        {prompt}
                      </Typography>
-                  </Skeleton>
-                  <Skeleton>
-                     <Typography
-                        sx={{ mb: 1.5 }}
-                        variant="caption"
-                        color="text.secondary"
-                     >
-                        {`LINE COUNT: 121`}
-                     </Typography>
-                  </Skeleton>
+                  ) : (
+                     <Skeleton>
+                        <Typography variant="h5" component="div">
+                           Lorem ipsum dolor sit amet.
+                        </Typography>
+                     </Skeleton>
+                  )}
+
+                  {mode === "package" && (
+                     <Skeleton>
+                        <Typography
+                           sx={{ mb: 1.5 }}
+                           variant="caption"
+                           color="text.secondary"
+                        >
+                           {`LINE COUNT: 121`}
+                        </Typography>
+                     </Skeleton>
+                  )}
                </Box>
 
                <Box sx={{ padding: "1em" }}>
