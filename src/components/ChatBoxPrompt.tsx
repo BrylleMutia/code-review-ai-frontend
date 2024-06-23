@@ -11,6 +11,7 @@ import { AppContextType, Prompt } from "../context/types";
 import { AppContext } from "../context/AppContext";
 import ReviewService from "../services/ReviewService";
 import ChatBoxCardLoading from "./ChatBoxCardLoading";
+import { errorHandler } from "../utils/error";
 
 type ChatBoxPromptProps = {} & Prompt;
 
@@ -20,8 +21,12 @@ const ChatBoxPrompt = ({
    response,
    isLoading,
 }: ChatBoxPromptProps) => {
-   const { packageDetails, handleUpdatePrompts, handleSetSyncLoading } =
-      useContext(AppContext) as AppContextType;
+   const {
+      packageDetails,
+      handleUpdatePrompts,
+      handleSetSyncLoading,
+      handleChangeSnackbar,
+   } = useContext(AppContext) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
       // proceed with the next step after initial code review
@@ -52,17 +57,19 @@ const ChatBoxPrompt = ({
       });
 
       if (prompt) {
-         ReviewService.sendPrompt(prompt).then((response) => {
-            // set true prompt details to replace placeholder prompt
-            handleUpdatePrompts({
-               id: id + 1,
-               prompt,
-               response: response.data.response,
-               isLoading: false,
-            });
+         ReviewService.sendPrompt(prompt)
+            .then((response) => {
+               // set true prompt details to replace placeholder prompt
+               handleUpdatePrompts({
+                  id: id + 1,
+                  prompt,
+                  response: response.data.response,
+                  isLoading: false,
+               });
 
-            handleSetSyncLoading(false);
-         });
+               handleSetSyncLoading(false);
+            })
+            .catch((err) => errorHandler(err, handleChangeSnackbar));
       }
    };
 

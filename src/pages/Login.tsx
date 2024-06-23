@@ -16,15 +16,16 @@ import { AppContext } from "../context/AppContext";
 import { AppContextType } from "../context/types";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import AuthService from "../services/AuthService";
+import { errorHandler } from "../utils/error";
+import CustomSnackbar from "../components/CustomSnackbar";
 
 export default function LogIn() {
    const [email, setEmail] = useState<string | null>(null);
    const [password, setPassword] = useState<string | null>(null);
    const [rememberMe, setRememberMe] = useState(false);
 
-   const { handleAuthChange, handleUserDetailsChange } = useContext(
-      AppContext
-   ) as AppContextType;
+   const { handleAuthChange, handleUserDetailsChange, handleChangeSnackbar } =
+      useContext(AppContext) as AppContextType;
 
    const navigate = useNavigate();
 
@@ -42,17 +43,19 @@ export default function LogIn() {
       event.preventDefault();
 
       if (email && password) {
-         AuthService.loginUser(email, password, rememberMe).then((response) => {
-            const { id, name, email, access_token } = response.data;
-            handleUserDetailsChange({ id, name, email });
-            handleAuthChange(true);
+         AuthService.loginUser(email, password, rememberMe)
+            .then((response) => {
+               const { id, name, email, access_token } = response.data;
+               handleUserDetailsChange({ id, name, email });
+               handleAuthChange(true);
 
-            // set token to localstorage
-            localStorage.setItem("access_token", access_token);
+               // set token to localstorage
+               localStorage.setItem("access_token", access_token);
 
-            // redirect to homepage
-            navigate("/");
-         });
+               // redirect to homepage
+               navigate("/");
+            })
+            .catch((err) => errorHandler(err, handleChangeSnackbar));
       }
    };
 
@@ -143,6 +146,8 @@ export default function LogIn() {
             </Box>
          </Box>
          <Copyright sx={{ mt: 10, mb: 4 }} />
+
+         <CustomSnackbar severity="error" />
       </Container>
    );
 }

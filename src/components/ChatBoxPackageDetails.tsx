@@ -10,10 +10,15 @@ import { AppContext } from "../context/AppContext";
 import ChatBoxCard from "./ChatBoxCard";
 import ReviewService from "../services/ReviewService";
 import ChatBoxCardLoading from "./ChatBoxCardLoading";
+import { errorHandler } from "../utils/error";
 
 const ChatBoxPackageDetails = () => {
-   const { packageDetails, handleUpdatePrompts, handleSetSyncLoading } =
-      useContext(AppContext) as AppContextType;
+   const {
+      packageDetails,
+      handleUpdatePrompts,
+      handleSetSyncLoading,
+      handleChangeSnackbar,
+   } = useContext(AppContext) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
       handleSetSyncLoading(true);
@@ -27,17 +32,19 @@ const ChatBoxPackageDetails = () => {
          isLoading: true,
       });
 
-      ReviewService.setTemplate(templateNum).then((response) => {
-         // set true prompt details to replace placeholder prompt
-         handleUpdatePrompts({
-            id: 1,
-            prompt: "Initial Review",
-            response: response.data.response,
-            isLoading: false,
-         });
+      ReviewService.setTemplate(templateNum)
+         .then((response) => {
+            // set true prompt details to replace placeholder prompt
+            handleUpdatePrompts({
+               id: 1,
+               prompt: "Initial Review",
+               response: response.data.response,
+               isLoading: false,
+            });
 
-         handleSetSyncLoading(false);
-      });
+            handleSetSyncLoading(false);
+         })
+         .catch((err) => errorHandler(err, handleChangeSnackbar));
    };
 
    return (

@@ -20,6 +20,7 @@ import IconButton from "@mui/material/IconButton";
 import { AppContext } from "../context/AppContext";
 import { AppContextType } from "../context/types";
 import ReviewService from "../services/ReviewService";
+import { errorHandler } from "../utils/error";
 
 const PackageSelectDialog = () => {
    const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -33,6 +34,7 @@ const PackageSelectDialog = () => {
       handlePackageDetailsChange,
       handleSetSyncLoading,
       handleUpdatePrompts,
+      handleChangeSnackbar,
    } = useContext(AppContext) as AppContextType;
 
    const handleDialogOpen = () => {
@@ -83,10 +85,12 @@ const PackageSelectDialog = () => {
          // clear up prompts from previous review
          handleUpdatePrompts(null);
 
-         ReviewService.setPackage(selectedPackage).then((response) => {
-            handlePackageDetailsChange(response.data.data);
-            handleSetSyncLoading(false);
-         });
+         ReviewService.setPackage(selectedPackage)
+            .then((response) => {
+               handlePackageDetailsChange(response.data.data);
+               handleSetSyncLoading(false);
+            })
+            .catch((err) => errorHandler(err, handleChangeSnackbar));
       }
    };
 
