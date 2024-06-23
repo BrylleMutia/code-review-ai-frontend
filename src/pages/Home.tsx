@@ -25,7 +25,6 @@ export default function Home() {
                width: "100%",
                display: "flex",
                justifyContent: "center",
-               marginTop: "auto",
                overflowY: "scroll",
             }}
          >

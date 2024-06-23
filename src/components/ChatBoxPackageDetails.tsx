@@ -12,12 +12,8 @@ import ReviewService from "../services/ReviewService";
 import ChatBoxCardLoading from "./ChatBoxCardLoading";
 
 const ChatBoxPackageDetails = () => {
-   const {
-      packageDetails,
-      isSyncLoading,
-      handleUpdatePrompts,
-      handleSetSyncLoading,
-   } = useContext(AppContext) as AppContextType;
+   const { packageDetails, handleUpdatePrompts, handleSetSyncLoading } =
+      useContext(AppContext) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
       handleSetSyncLoading(true);
@@ -108,7 +104,7 @@ const ChatBoxPackageDetails = () => {
                      variant="outlined"
                      onClick={() => continueCodeReview(1)}
                   >
-                     Review
+                     Continue
                   </Button>
                </CardActions>
             </React.Fragment>
