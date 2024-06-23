@@ -16,7 +16,7 @@ import { AppContext } from "../context/AppContext";
 export default function ConversationsList() {
    const [open, setOpen] = React.useState(true);
 
-   const { packageDetails } = useContext(AppContext) as AppContextType;
+   const { packageDetails, reviews } = useContext(AppContext) as AppContextType;
 
    const handleClick = () => {
       setOpen(!open);
@@ -54,9 +54,19 @@ export default function ConversationsList() {
          </ListItemButton>
          <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-               <ListItemButton sx={{ pl: 2 }}>
-                  <ListItemText primary="Starred" />
-               </ListItemButton>
+               {reviews &&
+                  reviews.map((review, index) => (
+                     <ListItemButton sx={{ pl: 2 }} key={index} dense>
+                        <ListItemText
+                           sx={{
+                              "& .MuiListItemText-primary": {
+                                 fontSize: "0.8em",
+                              },
+                           }}
+                           primary={review.package_name}
+                        />
+                     </ListItemButton>
+                  ))}
             </List>
          </Collapse>
       </List>
