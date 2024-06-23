@@ -26,6 +26,7 @@ const ChatBoxPrompt = ({
       handleUpdatePrompts,
       handleSetSyncLoading,
       handleChangeSnackbar,
+      promptResponses,
    } = useContext(AppContext) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
@@ -51,7 +52,7 @@ const ChatBoxPrompt = ({
       // prompt id is last prompt + 1
       handleUpdatePrompts({
          id: id + 1,
-         prompt: "",
+         prompt,
          response: "",
          isLoading: true,
       });
@@ -123,7 +124,13 @@ const ChatBoxPrompt = ({
                </CardActions>
             </React.Fragment>
          ) : (
-            <ChatBoxCardLoading />
+            <ChatBoxCardLoading
+               mode="prompt"
+               prompt={
+                  promptResponses &&
+                  promptResponses[promptResponses.length - 1].prompt
+               }
+            />
          )}
       </ChatBoxCard>
    );

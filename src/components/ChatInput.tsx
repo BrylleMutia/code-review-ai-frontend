@@ -36,7 +36,7 @@ export default function ChatInput() {
          // prompt id is last prompt + 1
          handleUpdatePrompts({
             id: promptResponses.length + 1,
-            prompt: "",
+            prompt,
             response: "",
             isLoading: true,
          });

@@ -85,6 +85,14 @@ const PackageSelectDialog = () => {
          // clear up prompts from previous review
          handleUpdatePrompts(null);
 
+         // setup initial package details for loader
+         handlePackageDetailsChange({
+            line_count: 0,
+            package_name: selectedPackage,
+            ref_modules: [],
+            ref_tables: [],
+         });
+
          ReviewService.setPackage(selectedPackage)
             .then((response) => {
                handlePackageDetailsChange(response.data.data);

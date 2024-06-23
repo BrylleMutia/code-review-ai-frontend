@@ -27,7 +27,7 @@ const ChatBoxPackageDetails = () => {
       // set empty placeholder prompt for loader while waiting for response
       handleUpdatePrompts({
          id: 1,
-         prompt: "",
+         prompt: "Initial Review",
          response: "",
          isLoading: true,
       });
@@ -49,7 +49,7 @@ const ChatBoxPackageDetails = () => {
 
    return (
       <ChatBoxCard>
-         {packageDetails ? (
+         {packageDetails?.line_count ? (
             <React.Fragment>
                <CardContent sx={{ padding: "0" }}>
                   <Box
@@ -116,7 +116,10 @@ const ChatBoxPackageDetails = () => {
                </CardActions>
             </React.Fragment>
          ) : (
-            <ChatBoxCardLoading />
+            <ChatBoxCardLoading
+               mode="package"
+               prompt={packageDetails && packageDetails.package_name}
+            />
          )}
       </ChatBoxCard>
    );
