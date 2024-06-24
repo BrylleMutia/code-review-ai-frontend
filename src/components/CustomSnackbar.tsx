@@ -27,6 +27,7 @@ export default function CustomSnackbar({
       reason?: string
    ) => {
       if (reason === "clickaway") {
+         console.log(event);
          return;
       }
 

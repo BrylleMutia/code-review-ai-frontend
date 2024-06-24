@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Prompt } from "../context/types";
+import { Prompt } from "../services/ReviewService.types";
 
 const useScrollIntoView = (
    ref: React.RefObject<HTMLDivElement>,

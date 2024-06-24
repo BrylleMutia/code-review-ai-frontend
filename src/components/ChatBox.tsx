@@ -1,4 +1,4 @@
-import React, { createRef, useContext } from "react";
+import { createRef, useContext } from "react";
 import { AppContextType } from "../context/types";
 import { AppContext } from "../context/AppContext";
 import ChatBoxPackageDetails from "./ChatBoxPackageDetails";
