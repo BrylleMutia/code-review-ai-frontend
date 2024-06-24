@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createContext } from "react";
-import type { AppContextType, SnackBarConfig } from "./types";
+import type { AppContextType, MUIThemes, SnackBarConfig } from "./types";
 import type { Prompt, Review } from "../services/ReviewService.types";
 import type { BaseUserDetails } from "../services/AuthService.types";
 import type { BasePackageDetails } from "../services/ReviewService.types";
@@ -29,6 +29,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       message: "",
    });
    const [reviews, setReviews] = useState<Review[] | null>(null);
+   const [selectedTheme, setSelectedTheme] = useState<MUIThemes>("light");
 
    const handleAuthChange = (authState: boolean) => {
       setIsAuthenticated(authState);
@@ -95,6 +96,10 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       });
    };
 
+   const handleChangeTheme = (theme: MUIThemes) => {
+      setSelectedTheme(theme);
+   };
+
    return (
       <AppContext.Provider
          value={{
@@ -114,6 +119,8 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
             reviews,
             handleUpdateReviews,
             handleAddReview,
+            selectedTheme,
+            handleChangeTheme,
          }}
       >
          {children}

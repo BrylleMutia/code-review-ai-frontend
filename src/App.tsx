@@ -1,6 +1,8 @@
 import { useContext, useEffect } from "react";
 import "./App.css";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { blue, grey } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import Home from "./pages/Home";
 import SignUp from "./pages/Signup";
@@ -10,11 +12,34 @@ import { AppContextType } from "./context/types";
 import { AppContext } from "./context/AppContext";
 import Layout from "./pages/Layout";
 import ReviewService from "./services/ReviewService";
+import { CssBaseline } from "@mui/material";
 function App() {
-   const { handleAuthChange, handleUserDetailsChange, handleUpdateReviews } =
-      useContext(AppContext) as AppContextType;
+   const {
+      handleAuthChange,
+      handleUserDetailsChange,
+      handleUpdateReviews,
+      selectedTheme,
+   } = useContext(AppContext) as AppContextType;
 
    const navigate = useNavigate();
+
+   const theme = createTheme({
+      palette: {
+         mode: selectedTheme,
+         ...(selectedTheme === "light"
+            ? {
+                 primary: {
+                    main: blue[700],
+                 },
+              }
+            : {
+                 text: {
+                    primary: "#fff",
+                    secondary: grey[500],
+                 },
+              }),
+      },
+   });
 
    useEffect(() => {
       AuthService.checkToken()
@@ -36,26 +61,28 @@ function App() {
    }, []);
 
    return (
-      <Routes>
-         <Route path="/" element={<Layout />}>
-            {/* PROTECTED ROUTES, auth checked on Layout */}
-            <Route index element={<Home />} />
-         </Route>
+      <ThemeProvider theme={theme}>
+         <CssBaseline />
+         <Routes>
+            <Route path="/" element={<Layout />}>
+               {/* PROTECTED ROUTES, auth checked on Layout */}
+               <Route index element={<Home />} />
+            </Route>
 
-         <Route path="auth">
-            <Route index element={<LogIn />} />
-            <Route path="signup" element={<SignUp />} />
-         </Route>
+            <Route path="auth">
+               <Route index element={<LogIn />} />
+               <Route path="signup" element={<SignUp />} />
+            </Route>
 
-         {/* Catch all - replace with 404 component if you want */}
-         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+            {/* Catch all - replace with 404 component if you want */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+         </Routes>
+      </ThemeProvider>
    );
 }
 
 export default App;
 
-// TODO: Enable custom prompt from chat input
 // TODO: Save conversations to DB + put in sidebar
 // TODO: Upload file for review + store in backend / db
 // TODO: Fix markdown code blocks getting cut on chatbox

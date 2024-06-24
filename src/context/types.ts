@@ -21,7 +21,11 @@ export type AppContextType = {
    reviews: Review[] | null;
    handleUpdateReviews: (reviews: Review[]) => void;
    handleAddReview: (review: Review) => void;
+   selectedTheme: MUIThemes;
+   handleChangeTheme: (theme: MUIThemes) => void;
 };
+
+export type MUIThemes = "light" | "dark";
 
 export type SnackBarConfig = {
    isShown: boolean;
