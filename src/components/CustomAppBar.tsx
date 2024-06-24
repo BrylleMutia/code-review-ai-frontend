@@ -10,7 +10,7 @@ export default function CustomAppBar({
    handleSidebarToggle,
 }: CustomAppBarProps) {
    return (
-      <AppBar position="static" sx={{ width: "auto", flexGrow: "1" }}>
+      <AppBar position="static" sx={{ width: "auto" }}>
          <Toolbar>
             <IconButton
                size="large"

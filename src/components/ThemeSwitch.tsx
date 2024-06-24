@@ -13,13 +13,11 @@ const ThemeSwitch = () => {
    };
 
    return (
-      <div>
-         <Switch
-            checked={selectedTheme === "dark"}
-            onChange={handleChange}
-            inputProps={{ "aria-label": "controlled" }}
-         />
-      </div>
+      <Switch
+         checked={selectedTheme === "dark"}
+         onChange={handleChange}
+         inputProps={{ "aria-label": "controlled" }}
+      />
    );
 };
 
