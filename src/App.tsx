@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import SignUp from "./pages/Signup";
 import LogIn from "./pages/Login";
 import AuthService from "./services/AuthService";
-import { AppContextType } from "./context/types";
+import { AppContextType, MUIThemes } from "./context/types";
 import { AppContext } from "./context/AppContext";
 import Layout from "./pages/Layout";
 import ReviewService from "./services/ReviewService";
@@ -19,6 +19,7 @@ function App() {
       handleUserDetailsChange,
       handleUpdateReviews,
       selectedTheme,
+      handleChangeTheme,
    } = useContext(AppContext) as AppContextType;
 
    const navigate = useNavigate();
@@ -60,6 +61,12 @@ function App() {
          });
    }, []);
 
+   useEffect(() => {
+      // update theme preference saved from localStorage
+      const savedTheme = localStorage.getItem("theme") as MUIThemes;
+      if (savedTheme) handleChangeTheme(savedTheme);
+   }, []);
+
    return (
       <ThemeProvider theme={theme}>
          <CssBaseline />
@@ -86,5 +93,3 @@ export default App;
 // TODO: Save conversations to DB + put in sidebar
 // TODO: Upload file for review + store in backend / db
 // TODO: Fix markdown code blocks getting cut on chatbox
-// TODO: Dark mode toggle
-// TODO: Theme Provider for MUI

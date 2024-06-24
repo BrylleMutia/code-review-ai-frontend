@@ -98,6 +98,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
    const handleChangeTheme = (theme: MUIThemes) => {
       setSelectedTheme(theme);
+      localStorage.setItem("theme", theme)
    };
 
    return (
