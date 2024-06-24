@@ -42,7 +42,7 @@ const Layout = () => {
                flexDirection: "column",
                justifyContent: "flex-start",
                width: "100%",
-               height: "93%",
+               height: "100%",
             }}
          >
             <CustomAppBar handleSidebarToggle={handleSidebarOpen} />
@@ -50,7 +50,7 @@ const Layout = () => {
             {/* Outlet is all child routes from App.tsx */}
             {/* Auth check, redirect to auth page if not authenticated */}
             {/* {isAuthenticated && <Outlet />} */}
-            <Box sx={{ height: "100%", flexGrow: 1 }}>
+            <Box sx={{ height: "89%", flexGrow: 1 }}>
                {isAuthenticated || token ? (
                   <Outlet context={[isSidebarOpen, handleSidebarOpen]} />
                ) : (
