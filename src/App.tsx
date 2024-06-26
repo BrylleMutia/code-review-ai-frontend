@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import "./App.css";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { blue, grey } from "@mui/material/colors";
+import { grey } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import Home from "./pages/Home";
@@ -30,10 +30,19 @@ function App() {
          ...(selectedTheme === "light"
             ? {
                  primary: {
-                    main: blue[700],
+                    main: "#A100FF",
+                 },
+                 secondary: {
+                    main: "#f44336",
                  },
               }
             : {
+                 primary: {
+                    main: "#954bb4",
+                 },
+                 secondary: {
+                    main: "#d500f9",
+                 },
                  text: {
                     primary: "#fff",
                     secondary: grey[500],
@@ -90,6 +99,7 @@ function App() {
 
 export default App;
 
-// TODO: Save conversations to DB + put in sidebar
 // TODO: Upload file for review + store in backend / db
+// TODO: Fix new revie btn not centered after logout and login
+// TODO: Change scrollbars to more minimalist
 // TODO: Fix markdown code blocks getting cut on chatbox
