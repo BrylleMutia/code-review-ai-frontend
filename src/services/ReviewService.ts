@@ -1,7 +1,14 @@
 import { AxiosResponse } from "axios";
 import http from "../http";
 import { getAccessToken } from "../utils/token";
-import { ReviewResponse, SetPackageRes, PromptRes, FindPackageRes, SetTemplateRes } from "./ReviewService.types";
+import {
+   ReviewResponse,
+   SetPackageRes,
+   PromptRes,
+   FindPackageRes,
+   SetTemplateRes,
+   ReviewReloadResponse,
+} from "./ReviewService.types";
 
 const findPackage = async (
    packageStr: string
@@ -84,12 +91,26 @@ const getReviews = async (): Promise<AxiosResponse<ReviewResponse>> => {
    });
 };
 
+const reloadReview = async (
+   review_id: number
+): Promise<AxiosResponse<ReviewReloadResponse>> => {
+   const token = getAccessToken();
+
+   return await http.get(`/code/review/reload/${review_id}`, {
+      headers: {
+         "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`,
+      },
+   });
+};
+
 const ReviewService = {
    findPackage,
    setPackage,
    setTemplate,
    sendPrompt,
    getReviews,
+   reloadReview,
 };
 
 export default ReviewService;
