@@ -19,7 +19,6 @@ const ChatBoxPackageDetails = () => {
       handleSetSyncLoading,
       handleChangeSnackbar,
       promptResponses,
-      handleAddReview,
    } = useContext(AppContext) as AppContextType;
 
    const continueCodeReview = (templateNum: number) => {
@@ -43,8 +42,6 @@ const ChatBoxPackageDetails = () => {
                response: response.data.response,
                isLoading: false,
             });
-
-            handleAddReview(response.data.review);
 
             handleSetSyncLoading(false);
          })
@@ -88,9 +85,9 @@ const ChatBoxPackageDetails = () => {
                            Referenced Modules:
                         </Typography>
 
-                        {packageDetails.ref_modules.map((module, index) => (
+                        {packageDetails.ref_modules.map((mod, index) => (
                            <Typography variant="body2" key={index}>
-                              {`• ${module.referenced_type}: ${module.referenced_name}`}
+                              {`• ${mod.referenced_type}: ${mod.referenced_name}`}
                            </Typography>
                         ))}
                      </Box>

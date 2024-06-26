@@ -35,6 +35,7 @@ const PackageSelectDialog = () => {
       handleSetSyncLoading,
       handleUpdatePrompts,
       handleChangeSnackbar,
+      handleAddReview,
    } = useContext(AppContext) as AppContextType;
 
    const handleDialogOpen = () => {
@@ -96,6 +97,7 @@ const PackageSelectDialog = () => {
          ReviewService.setPackage(selectedPackage)
             .then((response) => {
                handlePackageDetailsChange(response.data.data);
+               handleAddReview(response.data.review);
                handleSetSyncLoading(false);
             })
             .catch((err) => errorHandler(err, handleChangeSnackbar));
