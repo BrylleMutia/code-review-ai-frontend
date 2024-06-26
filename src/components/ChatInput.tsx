@@ -18,6 +18,7 @@ export default function ChatInput() {
       handleUpdatePrompts,
       promptResponses,
       handleChangeSnackbar,
+      currentReviewDetails,
    } = useContext(AppContext) as AppContextType;
 
    const handlePromptChange = (
@@ -44,19 +45,21 @@ export default function ChatInput() {
          const newPrompt = prompt;
          setPrompt("");
 
-         ReviewService.sendPrompt(newPrompt)
-            .then((response) => {
-               // set true prompt details to replace placeholder prompt
-               handleUpdatePrompts({
-                  id: promptResponses.length + 1,
-                  prompt,
-                  response: response.data.response,
-                  isLoading: false,
-               });
+         if (currentReviewDetails) {
+            ReviewService.sendPrompt(currentReviewDetails.id, newPrompt)
+               .then((response) => {
+                  // set true prompt details to replace placeholder prompt
+                  handleUpdatePrompts({
+                     id: promptResponses.length + 1,
+                     prompt,
+                     response: response.data.response,
+                     isLoading: false,
+                  });
 
-               handleSetSyncLoading(false);
-            })
-            .catch((err) => errorHandler(err, handleChangeSnackbar));
+                  handleSetSyncLoading(false);
+               })
+               .catch((err) => errorHandler(err, handleChangeSnackbar));
+         }
       }
    };
 

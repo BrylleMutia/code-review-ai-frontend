@@ -29,6 +29,7 @@ const ChatBoxPrompt = ({
       handleSetSyncLoading,
       handleChangeSnackbar,
       promptResponses,
+      currentReviewDetails,
    } = useContext(AppContext) as AppContextType;
 
    // used to disable action buttons on prompt card if not recent
@@ -55,19 +56,21 @@ const ChatBoxPrompt = ({
       });
 
       if (prompt) {
-         ReviewService.sendPrompt(prompt)
-            .then((response) => {
-               // set true prompt details to replace placeholder prompt
-               handleUpdatePrompts({
-                  id: id + 1,
-                  prompt,
-                  response: response.data.response,
-                  isLoading: false,
-               });
+         if (currentReviewDetails) {
+            ReviewService.sendPrompt(currentReviewDetails.id, prompt)
+               .then((response) => {
+                  // set true prompt details to replace placeholder prompt
+                  handleUpdatePrompts({
+                     id: id + 1,
+                     prompt,
+                     response: response.data.response,
+                     isLoading: false,
+                  });
 
-               handleSetSyncLoading(false);
-            })
-            .catch((err) => errorHandler(err, handleChangeSnackbar));
+                  handleSetSyncLoading(false);
+               })
+               .catch((err) => errorHandler(err, handleChangeSnackbar));
+         }
       }
    };
 

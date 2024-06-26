@@ -47,12 +47,13 @@ const setPackage = async (
 };
 
 const setTemplate = async (
+   review_id: number,
    tempalateNum: number
 ): Promise<AxiosResponse<SetTemplateRes>> => {
    const token = getAccessToken();
 
    return await http.post(
-      "/code/set_template",
+      `/code/set_template/${review_id}`,
       { data: { template_num: tempalateNum } },
       {
          headers: {
@@ -64,12 +65,13 @@ const setTemplate = async (
 };
 
 const sendPrompt = async (
+   review_id: number,
    prompt: string
 ): Promise<AxiosResponse<PromptRes>> => {
    const token = getAccessToken();
 
    return await http.post(
-      "/code/prompt",
+      `/code/prompt/${review_id}`,
       { data: { query: prompt } },
       {
          headers: {
