@@ -18,12 +18,14 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
       email: "",
       name: "",
    });
+   const [isSyncLoading, setIsSyncLoading] = useState(false);
+   const [currentReviewDetails, setCurrentReviewDetails] =
+      useState<Review | null>(null);
    const [packageDetails, setPackageDetails] =
       useState<BasePackageDetails | null>(null);
    const [promptResponses, setPromptResponses] = useState<Prompt[] | null>(
       null
    );
-   const [isSyncLoading, setIsSyncLoading] = useState(false);
    const [snackBarDetails, setSnackBarDetails] = useState<SnackBarConfig>({
       isShown: false,
       message: "",
@@ -41,6 +43,11 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
    const handleSetSyncLoading = (syncState: boolean) => {
       setIsSyncLoading(syncState);
    };
+
+   const handleChangeCurrentReview = (review: Review) => {
+      setCurrentReviewDetails(review);
+   };
+
    const handlePackageDetailsChange = (
       packageDetails: BasePackageDetails | null
    ) => {
@@ -83,6 +90,10 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
    };
 
    const handleUpdateReviews = (reviews: Review[]) => {
+      reviews.sort((reviewA, reviewB) =>
+         reviewA.date_created > reviewB.date_created ? -1 : 1
+      );
+
       setReviews(reviews);
    };
 
@@ -98,7 +109,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
    const handleChangeTheme = (theme: MUIThemes) => {
       setSelectedTheme(theme);
-      localStorage.setItem("theme", theme)
+      localStorage.setItem("theme", theme);
    };
 
    return (
@@ -110,6 +121,8 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
             handleUserDetailsChange,
             isSyncLoading,
             handleSetSyncLoading,
+            currentReviewDetails,
+            handleChangeCurrentReview,
             packageDetails,
             handlePackageDetailsChange,
             handleUserLogout,

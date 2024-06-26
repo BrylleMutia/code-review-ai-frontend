@@ -9,6 +9,8 @@ export type AppContextType = {
    handleUserDetailsChange: (userDetails: BaseUserDetails) => void;
    isSyncLoading: boolean;
    handleSetSyncLoading: (syncState: boolean) => void;
+   currentReviewDetails: Review | null;
+   handleChangeCurrentReview: (reviewDetails: Review) => void;
    packageDetails: BasePackageDetails | null;
    handlePackageDetailsChange: (
       packageDetails: BasePackageDetails | null
