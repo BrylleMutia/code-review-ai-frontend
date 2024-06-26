@@ -24,6 +24,7 @@ export default function ConversationsList() {
       handlePackageDetailsChange,
       handleSetSyncLoading,
       handleUpdatePrompts,
+      handleChangeCurrentReview,
    } = useContext(AppContext) as AppContextType;
 
    const handleClick = () => {
@@ -33,10 +34,20 @@ export default function ConversationsList() {
    const handleReviewReload = (review_id: number) => {
       handleSetSyncLoading(true);
       handleUpdatePrompts(null);
+      handlePackageDetailsChange(null);
 
       ReviewService.reloadReview(review_id).then((response) => {
-         const { package_name, line_count, ref_modules, ref_tables, prompts } =
-            response.data.data;
+         const {
+            package_name,
+            line_count,
+            ref_modules,
+            ref_tables,
+            prompts,
+            date_created,
+            id,
+            name,
+            user_id,
+         } = response.data.data;
 
          // update package details
          const packageDetailsReload: BasePackageDetails = {
@@ -48,9 +59,17 @@ export default function ConversationsList() {
             })),
             ref_tables: ref_tables.map((table) => table.name),
          };
-
          handlePackageDetailsChange(packageDetailsReload);
-         handleSetSyncLoading(false);
+
+         // update current review
+         handleChangeCurrentReview({
+            id,
+            date_created,
+            line_count,
+            name,
+            package_name,
+            user_id,
+         });
 
          // update prompts
          console.log(prompts);
@@ -62,6 +81,8 @@ export default function ConversationsList() {
                isLoading: false,
             });
          });
+
+         handleSetSyncLoading(false);
       });
    };
 
