@@ -12,14 +12,57 @@ import PackageSelectDialog from "./PackageSelectDialog";
 import { Box } from "@mui/material";
 import { AppContextType } from "../context/types";
 import { AppContext } from "../context/AppContext";
+import ReviewService from "../services/ReviewService";
+import { BasePackageDetails } from "../services/ReviewService.types";
 
 export default function ConversationsList() {
    const [open, setOpen] = React.useState(true);
 
-   const { packageDetails, reviews } = useContext(AppContext) as AppContextType;
+   const {
+      packageDetails,
+      reviews,
+      handlePackageDetailsChange,
+      handleSetSyncLoading,
+      handleUpdatePrompts,
+   } = useContext(AppContext) as AppContextType;
 
    const handleClick = () => {
       setOpen(!open);
+   };
+
+   const handleReviewReload = (review_id: number) => {
+      handleSetSyncLoading(true);
+      handleUpdatePrompts(null);
+
+      ReviewService.reloadReview(review_id).then((response) => {
+         const { package_name, line_count, ref_modules, ref_tables, prompts } =
+            response.data.data;
+
+         // update package details
+         const packageDetailsReload: BasePackageDetails = {
+            package_name,
+            line_count,
+            ref_modules: ref_modules.map((mod) => ({
+               referenced_type: mod.type,
+               referenced_name: mod.name,
+            })),
+            ref_tables: ref_tables.map((table) => table.name),
+         };
+
+         handlePackageDetailsChange(packageDetailsReload);
+         handleSetSyncLoading(false);
+
+         // update prompts
+         console.log(prompts);
+         prompts.forEach((prompt) => {
+            handleUpdatePrompts({
+               id: prompt.id,
+               prompt: prompt.name,
+               response: prompt.response,
+               isLoading: false,
+            });
+         });
+      });
    };
 
    return (
@@ -56,14 +99,19 @@ export default function ConversationsList() {
             <List component="div" disablePadding>
                {reviews &&
                   reviews.map((review, index) => (
-                     <ListItemButton sx={{ pl: 2 }} key={index} dense>
+                     <ListItemButton
+                        sx={{ pl: 2 }}
+                        key={index}
+                        dense
+                        onClick={() => handleReviewReload(review.id)}
+                     >
                         <ListItemText
                            sx={{
                               "& .MuiListItemText-primary": {
                                  fontSize: "0.8em",
                               },
                            }}
-                           primary={review.review_name}
+                           primary={review.name}
                         />
                      </ListItemButton>
                   ))}
