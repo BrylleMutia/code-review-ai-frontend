@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -16,11 +15,13 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
+import Divider from "@mui/material/Divider";
 
 import { AppContext } from "../context/AppContext";
 import { AppContextType } from "../context/types";
 import ReviewService from "../services/ReviewService";
 import { errorHandler } from "../utils/error";
+import UploadButton from "./UploadButton";
 
 const PackageSelectDialog = () => {
    const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -116,8 +117,6 @@ const PackageSelectDialog = () => {
             New Review
          </Button>
          <Dialog
-            fullWidth
-            maxWidth="xs"
             open={isDialogOpen}
             onClose={handleDialogClose}
             PaperProps={{
@@ -127,9 +126,6 @@ const PackageSelectDialog = () => {
          >
             <DialogTitle>Review</DialogTitle>
             <DialogContent>
-               <DialogContentText>
-                  Please search package to review
-               </DialogContentText>
                <Box
                   sx={{
                      display: "flex",
@@ -137,8 +133,17 @@ const PackageSelectDialog = () => {
                      m: "auto",
                      width: "fit-content",
                      marginTop: "2em",
+                     marginX: "1em",
                   }}
                >
+                  <UploadButton />
+
+                  <Divider sx={{ marginTop: "1em" }}>
+                     <Typography variant="caption" display="block" color="gray">
+                        OR
+                     </Typography>
+                  </Divider>
+
                   <FormControl
                      sx={{
                         display: "flex",
