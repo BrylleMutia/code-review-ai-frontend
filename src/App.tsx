@@ -100,6 +100,8 @@ function App() {
 export default App;
 
 // TODO: Upload file for review + store in backend / db
-// TODO: Fix new revie btn not centered after logout and login
+// TODO: Issue when going back to prev review and continuing initial review (getting no response, code retriever not defined)
+// TODO: New review btn disappearing issue on change to prev review
+// TODO: Fix new review btn not centered after logout and login
 // TODO: Change scrollbars to more minimalist
 // TODO: Fix markdown code blocks getting cut on chatbox
