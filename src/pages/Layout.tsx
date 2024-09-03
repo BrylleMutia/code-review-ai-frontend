@@ -5,6 +5,7 @@ import { AppContextType } from "../context/types";
 
 import CustomAppBar from "../components/CustomAppBar";
 import CustomDrawer from "../components/CustomDrawer";
+import CustomSnackbar from "../components/CustomSnackbar";
 import { Box } from "@mui/material";
 import { getAccessToken } from "../utils/token";
 
@@ -58,6 +59,8 @@ const Layout = () => {
                )}
             </Box>
          </Box>
+
+         <CustomSnackbar severity="error" />
       </Box>
    );
 };
