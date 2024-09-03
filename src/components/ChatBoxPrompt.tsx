@@ -5,6 +5,9 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 import Markdown from "react-markdown";
+import IconButton from "@mui/material/IconButton";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import ChatBoxCard from "./ChatBoxCard";
 import type { AppContextType } from "../context/types";
@@ -27,6 +30,7 @@ const ChatBoxPrompt = ({
       packageDetails,
       handleUpdatePrompts,
       handleSetSyncLoading,
+      isSyncLoading,
       handleChangeSnackbar,
       promptResponses,
       currentReviewDetails,
@@ -66,11 +70,53 @@ const ChatBoxPrompt = ({
                      response: response.data.response,
                      isLoading: false,
                   });
-
-                  handleSetSyncLoading(false);
                })
-               .catch((err) => errorHandler(err, handleChangeSnackbar));
+               .catch((err) => errorHandler(err, handleChangeSnackbar))
+               .finally(() => {
+                  handleSetSyncLoading(false);
+               });
          }
+      }
+   };
+
+   const handleExportConversation = () => {
+      if (currentReviewDetails) {
+         handleSetSyncLoading(true);
+
+         ReviewService.generateOutline(currentReviewDetails.id)
+            .then(() => {
+               ReviewService.exportConversation(currentReviewDetails.id)
+                  .then((response) => {
+                     const href = window.URL.createObjectURL(response.data);
+                     const link = document.createElement("a");
+
+                     link.href = href;
+                     link.download = currentReviewDetails.name;
+                     document.body.appendChild(link);
+
+                     link.click();
+
+                     // clean up "a" element & remove ObjectURL
+                     document.body.removeChild(link);
+                     window.URL.revokeObjectURL(href);
+                  })
+                  .catch((error) => {
+                     console.error(
+                        "Error fetching exported conversation:",
+                        error
+                     );
+                  })
+                  .finally(() => {
+                     handleSetSyncLoading(false);
+                  });
+            })
+            .catch((error) => {
+               console.error(
+                  "Error generating process outline diagram:",
+                  error
+               );
+               handleSetSyncLoading(false);
+            });
       }
    };
 
@@ -107,30 +153,55 @@ const ChatBoxPrompt = ({
                   </Box>
                </CardContent>
                <CardActions>
-                  <Button
-                     size="small"
-                     variant="outlined"
-                     disabled={!isPromptLatest}
-                     onClick={() => continueCodeReview(2)}
+                  <Box
+                     sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        width: "100%",
+                     }}
                   >
-                     Issues
-                  </Button>
-                  <Button
-                     size="small"
-                     variant="outlined"
-                     disabled={!isPromptLatest}
-                     onClick={() => continueCodeReview(3)}
-                  >
-                     Comments
-                  </Button>
-                  <Button
-                     size="small"
-                     variant="outlined"
-                     disabled={!isPromptLatest}
-                     onClick={() => continueCodeReview(4)}
-                  >
-                     Test
-                  </Button>
+                     <Box sx={{ display: "flex", gap: "0.3em" }}>
+                        <Button
+                           size="small"
+                           variant="outlined"
+                           disabled={!isPromptLatest}
+                           onClick={() => continueCodeReview(2)}
+                        >
+                           Issues
+                        </Button>
+                        <Button
+                           size="small"
+                           variant="outlined"
+                           disabled={!isPromptLatest}
+                           onClick={() => continueCodeReview(3)}
+                        >
+                           Comments
+                        </Button>
+                        <Button
+                           size="small"
+                           variant="outlined"
+                           disabled={!isPromptLatest}
+                           onClick={() => continueCodeReview(4)}
+                        >
+                           Test
+                        </Button>
+                     </Box>
+
+                     <Box>
+                        <IconButton
+                           aria-label="export"
+                           size="small"
+                           disabled={!isPromptLatest}
+                           onClick={() => handleExportConversation()}
+                        >
+                           {isSyncLoading ? (
+                              <CircularProgress color="inherit" size={23} />
+                           ) : (
+                              <FileDownloadIcon />
+                           )}
+                        </IconButton>
+                     </Box>
+                  </Box>
                </CardActions>
             </React.Fragment>
          ) : (
