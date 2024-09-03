@@ -106,6 +106,52 @@ const reloadReview = async (
    });
 };
 
+const generateOutline = async (
+   review_id: number
+): Promise<AxiosResponse<File>> => {
+   const token = getAccessToken();
+
+   return await http.post(
+      `/code/review/outline/${review_id}`,
+      {
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+         },
+      },
+      {
+         responseType: "blob",
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+         },
+      }
+   );
+};
+
+const exportConversation = async (
+   review_id: number
+): Promise<AxiosResponse<File>> => {
+   const token = getAccessToken();
+
+   return await http.post(
+      `/code/review/export/${review_id}`,
+      {
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+         },
+      },
+      {
+         responseType: "blob",
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+         },
+      }
+   );
+};
+
 const ReviewService = {
    findPackage,
    setPackage,
@@ -113,6 +159,8 @@ const ReviewService = {
    sendPrompt,
    getReviews,
    reloadReview,
+   generateOutline,
+   exportConversation,
 };
 
 export default ReviewService;
