@@ -100,21 +100,22 @@ const ChatBoxPrompt = ({
                      document.body.removeChild(link);
                      window.URL.revokeObjectURL(href);
                   })
-                  .catch((error) => {
+                  .catch((err) => {
+                     errorHandler(err, handleChangeSnackbar);
+
                      console.error(
                         "Error fetching exported conversation:",
-                        error
+                        err
                      );
                   })
                   .finally(() => {
                      handleSetSyncLoading(false);
                   });
             })
-            .catch((error) => {
-               console.error(
-                  "Error generating process outline diagram:",
-                  error
-               );
+            .catch((err) => {
+               errorHandler(err, handleChangeSnackbar);
+
+               console.error("Error generating process outline diagram:", err);
                handleSetSyncLoading(false);
             });
       }
