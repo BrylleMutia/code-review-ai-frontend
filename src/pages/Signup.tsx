@@ -103,6 +103,17 @@ export default function SignUp() {
                <Grid container spacing={2}>
                   <Grid item xs={12}>
                      <TextField
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        onChange={handleEmailChange}
+                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                     <TextField
                         autoComplete="username"
                         name="username"
                         required
@@ -111,17 +122,6 @@ export default function SignUp() {
                         label="Username"
                         autoFocus
                         onChange={handleNameChange}
-                     />
-                  </Grid>
-                  <Grid item xs={12}>
-                     <TextField
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        onChange={handleEmailChange}
                      />
                   </Grid>
                   <Grid item xs={12}>
