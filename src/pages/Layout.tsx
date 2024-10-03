@@ -11,6 +11,10 @@ import { getAccessToken } from "../utils/token";
 
 type ContextType = [isSidebarOpen: boolean, handleSidebarOpen: () => void];
 
+
+// TODO: Fix order of retrieved reviews on sidebar (should be desc)
+// TODO: Fix error on generate process outline
+
 const Layout = () => {
    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
