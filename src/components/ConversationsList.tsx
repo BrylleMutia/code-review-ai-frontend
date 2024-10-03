@@ -99,7 +99,7 @@ export default function ConversationsList() {
       >
          <Box
             sx={{
-               display: packageDetails ? "flex" : "none",
+               display: "flex",
                width: "100%",
                justifyContent: "center",
                marginTop: "1em",
