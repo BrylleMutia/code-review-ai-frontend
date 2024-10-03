@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 import ChatInput from "../components/ChatInput";
-import PackageSelectDialog from "../components/PackageSelectDialog";
 import { AppContext } from "../context/AppContext";
 import { useContext } from "react";
 import { AppContextType } from "../context/types";
 import ChatBox from "../components/ChatBox";
+import NoReview from "../components/NoReview";
 
 export default function Home() {
    const { packageDetails, isSyncLoading, promptResponses } = useContext(
@@ -20,20 +20,20 @@ export default function Home() {
             justifyContent: "center",
          }}
       >
-         <Box
-            sx={{
-               width: "100%",
-               display: "flex",
-               justifyContent: "center",
-               overflowY: "scroll",
-            }}
-         >
-            {!packageDetails && !isSyncLoading ? (
-               <PackageSelectDialog />
-            ) : (
+         {!packageDetails && !isSyncLoading ? (
+            <NoReview />
+         ) : (
+            <Box
+               sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  overflowY: "scroll",
+               }}
+            >
                <ChatBox />
-            )}
-         </Box>
+            </Box>
+         )}
 
          {!!promptResponses && (
             <Box
