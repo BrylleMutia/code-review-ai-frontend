@@ -35,6 +35,7 @@ export default function CustomDrawer({
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
+            width: "17em",
          }}
       >
          <div>
@@ -42,25 +43,44 @@ export default function CustomDrawer({
 
             <Divider />
          </div>
+
          <List>
             <ListItem key="profile" disablePadding>
-               <ListItemButton>
-                  <ListItemIcon sx={{ paddingLeft: "2em" }}>
+               <ListItemButton sx={{ paddingX: "3em" }}>
+                  <ListItemIcon
+                     sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        flexGrow: 1,
+                     }}
+                  >
                      <AccountCircleIcon />
+                     <ListItemText
+                        sx={{
+                           paddingX: "1em",
+                           maxWidth: "12em",
+                           textAlign: "center",
+                        }}
+                        primary={userDetails.name}
+                     />
                   </ListItemIcon>
-                  <ListItemText
-                     sx={{ paddingX: "1em" }}
-                     primary={userDetails.name}
-                  />
                </ListItemButton>
             </ListItem>
 
             <ListItem key="logout" disablePadding>
-               <ListItemButton onClick={handleUserLogout}>
-                  <ListItemIcon sx={{ paddingLeft: "2em" }}>
+               <ListItemButton
+                  sx={{ paddingX: "3em" }}
+                  onClick={handleUserLogout}
+               >
+                  <ListItemIcon
+                     sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}
+                  >
                      <ExitToAppIcon />
+                     <ListItemText
+                        sx={{ paddingX: "1em", textAlign: "center" }}
+                        primary="Logout"
+                     />
                   </ListItemIcon>
-                  <ListItemText sx={{ paddingX: "1em" }} primary="Logout" />
                </ListItemButton>
             </ListItem>
          </List>
