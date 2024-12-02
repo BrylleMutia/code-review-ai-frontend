@@ -19,7 +19,6 @@ export default function ConversationsList() {
    const [open, setOpen] = React.useState(true);
 
    const {
-      packageDetails,
       reviews,
       handlePackageDetailsChange,
       handleSetSyncLoading,
